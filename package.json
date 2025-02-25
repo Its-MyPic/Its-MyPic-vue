@@ -38,7 +38,7 @@
     "unplugin-fonts": "^1.1.1",
     "unplugin-vue-components": "^28.4.0",
     "unplugin-vue-router": "^0.11.2",
-    "vite": "^6.1.1",
+    "vite": "^6.2.0",
     "vite-plugin-sitemap": "^0.7.1",
     "vite-plugin-vuetify": "^2.1.0",
     "vite-ssg": "^25.2.0",
