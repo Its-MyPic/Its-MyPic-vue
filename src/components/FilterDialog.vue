@@ -10,7 +10,7 @@
       <span class="align-center">集數篩選</span>
       <MultiSelect :items="Array.from({ length: 13 }, (_, n) => n + 1)" v-model="mygoFilter" label="MyGO"
         style="min-width:250px" />
-      <MultiSelect :items="Array.from({ length: 9 }, (_, n) => n + 1)" v-model="aveMujicaFilter" label="Ave Mujica"
+      <MultiSelect :items="Array.from({ length: 10 }, (_, n) => n + 1)" v-model="aveMujicaFilter" label="Ave Mujica"
         style="min-width:250px" />
 
       <!-- <span class="align-center">角色篩選</span>
