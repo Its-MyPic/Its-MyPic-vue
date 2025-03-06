@@ -115,6 +115,7 @@ async function downloadImage() {
   URL.revokeObjectURL(url);
 }
 
+var isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
 let isLongPress = false;
 const copy = async (longPress: boolean) => {
   if (isLongPress && !longPress) {
@@ -123,6 +124,11 @@ const copy = async (longPress: boolean) => {
   }
   if (longPress) {
     isLongPress = true;
+    if (isSafari) {
+      snack_text.value = '因瀏覽器限制，不支援長按複製連結';
+      copyResult.value = true;
+      return;
+    }
   }
 
   copyResult.value = false;
@@ -136,12 +142,17 @@ const copy = async (longPress: boolean) => {
     }
   } catch (e: any) {
     reportErrorToDiscord(e);
-    try {
-      await copyUrl();
-    } catch (e: any) {
-      console.error('Error during copy:', e.message);
-      snack_text.value = '失敗 請按左下角回報手機型號/瀏覽器';
-      reportErrorToDiscord(e);
+    if (isSafari) {
+      snack_text.value = '複製失敗，請稍後重試，或切換為複製連結';
+    } else {
+      try {
+        await copyUrl();
+        snack_text.value = "複製圖片失敗，已複製連結";
+      } catch (e: any) {
+        console.error('Error during copy:', e.message);
+        snack_text.value = '失敗 請按左下角回報手機型號/瀏覽器';
+        reportErrorToDiscord(e);
+      }
     }
   } finally {
     copyResult.value = true;
