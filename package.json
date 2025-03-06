@@ -17,7 +17,7 @@
     "pinia": "^3.0.1",
     "vue": "^3.4.31",
     "vue-virtual-scroll-grid": "^1.11.0",
-    "vuetify": "^3.7.14"
+    "vuetify": "^3.7.15"
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",
