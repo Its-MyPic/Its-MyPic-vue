@@ -1,6 +1,9 @@
-name: Deploy to GitHub Pages
+name: Build and publish to GitHub Pages if needed
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -33,6 +36,7 @@ jobs:
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
+      if : github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
