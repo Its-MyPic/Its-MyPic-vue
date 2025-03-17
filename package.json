@@ -24,7 +24,7 @@
     "@mdi/js": "^7.4.47",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "22.13.10",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^5.2.3",
     "@vue/eslint-config-typescript": "^14.5.0",
     "@vue/tsconfig": "^0.7.0",
     "beasties": "^0.2.0",
