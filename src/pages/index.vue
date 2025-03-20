@@ -1,7 +1,7 @@
 <template>
   <AppBarComponent />
   <ResultGrid />
-  <FooterComponent />
+  <FooterComponent style="width: 100%;"/>
 </template>
 
 <script lang="ts" setup>
