@@ -53,7 +53,7 @@ const pageProvider = computed(() => {
 });
 
 const getKey = (item: any) => {
-  return item.value?.segment_id;
+  return item.value?.segmentId;
 };
 
 onMounted(() => {

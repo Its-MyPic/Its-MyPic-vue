@@ -54,15 +54,8 @@
 
 <script setup lang="ts">
 import { computed, ref, type PropType } from 'vue';
-
-type CardData = {
-  segment_id: number;
-  frame_start: number;
-  frame_end: number;
-  episode: string;
-  text: string;
-};
 import { useCopyMode } from '@/stores/states';
+import { data } from '@/plugins/data';
 
 const copyURLMode = useCopyMode();
 
@@ -73,42 +66,52 @@ const props = defineProps({
     required: true,
   },
   cardData: {
-    type: Object as PropType<CardData>,
+    type: Object as PropType<data.Info>,
     required: true,
   },
 });
 
 const text = props.cardData.text;
+const season = props.cardData.season;
 const episode = props.cardData.episode;
+const frame_start = props.cardData.frameStart;
+const framePrefer = props.cardData.framePrefer;
 
-const isAveMujica = episode.startsWith('ave');
-const session = isAveMujica ? 'Ave Mujica' : 'MyGO';
-const episodeText = `${session} 第${episode.replace("ave-", "")}話`;
 
-const episodeKey = episode.replace("ave-", "") as keyof typeof settings.videoLink[typeof session];
+
+const session = season == 2 ? 'Ave Mujica' : 'MyGO';
+const episodeText = `${session} 第${episode}話`;
+
+const episodeKey = `${episode}` as keyof typeof settings.videoLink[typeof session];
 const videoLink = settings.videoLink[session][episodeKey];
 
-const frame_start = props.cardData.frame_start;
+const offset = [0, 0, 34288, 68333, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const urlSec = Math.round((props.cardData.frameStart + (season == 1 ? offset[episode] : 0)) / 23.976);
+const videoLinkWithTimestamp = `${videoLink}&t=${urlSec}s`;
+
 const totalSec = frame_start / 23.976;
 const timestamp = `${Math.floor(totalSec / 60)}:${('0' + Math.floor(totalSec % 60)).slice(-2)}`;
-const videoLinkWithTimestamp = `${videoLink}&t=${Math.floor(totalSec)}s`;
+
+
 
 // console.log(videoLinkWithTimestamp);
 
-const baseUrl = 'https://mygodata.0m0.uk/images/';
-const imgUrl = computed(() => `${baseUrl}${episode}_${frame_start}.jpg`);
+const baseUrl = 'https://mypic.0m0.uk/images/';
+const imgUrl = computed(() => `${baseUrl}${season}/${episode}/${framePrefer}.webp`);
+
 const showDialog = ref(false);
 const copyResult = ref(false);
 const snack_text = ref('連結複製成功');
 
 async function downloadImage() {
-  const response = await fetch(imgUrl.value);
+  const dlUrl = await getPngBlob();
+  const response = await fetch(dlUrl);
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = `${text}.jpg`;
+  link.download = `${text}.png`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -167,22 +170,7 @@ const copyUrl = async () => {
 const copyImage = async () => {
   const item = new ClipboardItem({
     'image/png': (async () => {
-
-      let img = new Image();
-      img.src = imgUrl.value;
-      img.crossOrigin = 'Anonymous';
-      img.style.display = 'none';
-      await new Promise((resolve) => {
-        img.onload = resolve;
-      });
-
-      let canvas = document.createElement('canvas');
-      let ctx = canvas.getContext('2d') ?? new CanvasRenderingContext2D();
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const blobUrl = canvas.toDataURL("image/png");
-
+      const blobUrl = await getPngBlob();
       const data = await fetch(blobUrl);
       return await data.blob();
     }
@@ -190,6 +178,27 @@ const copyImage = async () => {
   })
   await navigator.clipboard.write([item])
   snack_text.value = "圖片複製成功";
+}
+var blobUrl = '';
+async function getPngBlob() {
+  if (blobUrl) {
+    return blobUrl;
+  }
+  let img = new Image();
+  img.src = imgUrl.value;
+  img.crossOrigin = 'Anonymous';
+  img.style.display = 'none';
+  await new Promise((resolve) => {
+    img.onload = resolve;
+  });
+
+  let canvas = document.createElement('canvas');
+  let ctx = canvas.getContext('2d') ?? new CanvasRenderingContext2D();
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0);
+  blobUrl = canvas.toDataURL("image/png");
+  return blobUrl;
 }
 
 async function reportErrorToDiscord(e: Error) {

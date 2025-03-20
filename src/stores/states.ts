@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref, watch } from "vue";
+import { data } from "@/plugins/data";
+type Card = data.Info;
+var Data = data.Data;
 
 // @ts-ignore
 import { ConverterFactory } from "opencc-js/core";
@@ -7,6 +10,8 @@ import { ConverterFactory } from "opencc-js/core";
 import cn from "opencc-js/from/cn";
 // @ts-ignore
 import tw from "opencc-js/to/tw";
+import { InferencePriority } from "typescript";
+import CardComponent from "@/components/CardComponent.vue";
 
 const normalize = (query: string) => {
   return query.toLowerCase().replace("你", "妳").replace("啊", "阿");
@@ -16,14 +21,6 @@ const CC = () => {
   const converter = ConverterFactory(cn, tw);
   return converter;
 };
-
-interface Card {
-  text: string;
-  episode: string;
-  frame_start: number;
-  frame_end: number;
-  segment_id: number;
-}
 
 export const useReverse = defineStore("Reverse", {
   state: () => ({ reverse: false }),
@@ -66,7 +63,6 @@ export const useQuery = defineStore("Query", () => {
 
   return { query, mygoFilter, avemujicaFilter, characterFilter };
 });
-
 export const useData = defineStore("Data", () => {
   const cardsData = ref([] as Card[]);
 
@@ -87,14 +83,10 @@ export const useData = defineStore("Data", () => {
     var filted = cardsData.value;
     var episodeFilter = new Set<string>();
     query.mygoFilter.forEach((element) => {
-      if (element < 4) {
-        episodeFilter.add("1-3");
-      } else {
-        episodeFilter.add(`${element}`);
-      }
+        episodeFilter.add(`1-${element}`);
     });
     query.avemujicaFilter.forEach((element) => {
-      episodeFilter.add(`ave-${element}`);
+      episodeFilter.add(`2-${element}`);
     });
     if (episodeFilter.size !== 0) {
       const key = reverse.reverse + Array.from(episodeFilter).join("");
@@ -102,7 +94,7 @@ export const useData = defineStore("Data", () => {
         filted = episodeCache.get(key) ?? [];
       } else {
         filted = cardsData.value.filter((card) =>
-          episodeFilter.has(card.episode),
+          episodeFilter.has(`${card.season}-${card.episode}`),
         );
         episodeCache.set(key, filted);
       }
@@ -120,11 +112,12 @@ export const useData = defineStore("Data", () => {
     if (cardsData.value.length !== 0) {
       return;
     }
-    var data;
+    var data: Card[];
     try {
-      data = await (await fetch("/data/data.json")).json();
+      var buf = await (await fetch("/data/data.bin")).bytes();
+      data = Data.decode(buf).info as Card[];
     } catch (e) {
-      data = [];
+      data = [] as Card[];
     }
     cardsData.value = data as Card[];
     episodeCache.clear();

@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { mdiSortReverseVariant, mdiSortVariant } from "@mdi/js";
 import { useReverse, useQuery } from "@/stores/states";
 
