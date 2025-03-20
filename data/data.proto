@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package data;
+
+message Info {
+  string text = 1;
+  int32 season = 2;
+  int32 episode = 3;
+  int32 frame_start = 4;
+  int32 frame_prefer = 5;
+  int32 frame_end = 6;
+  int32 segment_id = 7;
+}
+
+message Data{
+  repeated Info info = 1;
+}
