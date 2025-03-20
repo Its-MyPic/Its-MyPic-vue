@@ -34,7 +34,7 @@
               <ReportDialog :fileName="imgUrl" :text="text" />
             </v-btn>
             <v-btn @click="downloadImage" :loading="isDownloading">下載</v-btn>
-            <v-btn @click="downloadGif" :loading="isGeneratingGif">GIF</v-btn>
+            <v-btn @click="() => gifDialogRef?.CreateGif()">GIF</v-btn>
             <v-btn v-long-press="() => copy(true)" @click="() => copy(false)" :loading="isCopying">複製</v-btn>
             <v-btn :href="videoLinkWithTimestamp" target="_blank">
               從這裡開始看
@@ -43,6 +43,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <GifDialog ref="gifDialogRef" :text="text" :season="season" :episode="episode" :frame-start="frame_start"
+      :frame-end="props.cardData.frameEnd" />
 
     <v-snackbar v-model="copyResult" :timeout=2000 class="text-center" rounded="pill">
       <div class="text-h6 mx-auto font-weight-bold text-center text-truncate">
@@ -56,10 +59,10 @@
 import { computed, ref, type PropType } from 'vue';
 import { useCopyMode } from '@/stores/states';
 import { data } from '@/plugins/data';
-import GIF from 'gif.js';
+import GifDialog from './GifDialog.vue';
 
 const copyURLMode = useCopyMode();
-
+const gifDialogRef = ref<InstanceType<typeof GifDialog> | null>(null);
 import settings from '../assets/setting.json';
 const props = defineProps({
   styles: {
@@ -97,95 +100,8 @@ const imgUrl = computed(() => `${baseUrl}${season}/${episode}/${framePrefer}.web
 const showDialog = ref(false);
 const copyResult = ref(false);
 const snack_text = ref('連結複製成功');
-const isGeneratingGif = ref(false);
 const isDownloading = ref(false);
 const isCopying = ref(false);
-
-async function convertWebpToPng(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx?.drawImage(img, 0, 0);
-      resolve(img);
-    };
-    img.onerror = reject;
-    img.src = url;
-  });
-}
-
-async function downloadGif() {
-  if (isGeneratingGif.value) return;
-  isGeneratingGif.value = true;
-  snack_text.value = 'GIF生成中...';
-  copyResult.value = true;
-
-  const startTime = performance.now();
-  try {
-    const gif = new GIF({
-      workers: 2,
-      quality: 10,
-      workerScript: '/gif.worker.js',
-    });
-
-    // Create array of frame numbers
-    const frames = Array.from(
-      { length: props.cardData.frameEnd - props.cardData.frameStart - 4 },
-      (_, i) => props.cardData.frameStart + i + 2
-    );
-
-    // Fetch all frames in parallel
-    const framePromises = frames.map(frame => {
-      const frameUrl = `${baseUrl}${season}/${episode}/${frame}.webp`;
-      return convertWebpToPng(frameUrl);
-    });
-
-    // Wait for all frames to load
-    const images = await Promise.all(framePromises);
-
-    // Add all frames to gif
-    const frameDelay = Math.round(1000 / 23.976);
-    images.forEach(img => {
-      gif.addFrame(img, { delay: frameDelay });
-    });
-
-    // Render and download
-    gif.on('finished', (blob: Blob) => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${text}.gif`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      const endTime = performance.now();
-      const timeSpent = ((endTime - startTime) / 1000).toFixed(1);
-      isGeneratingGif.value = false;
-      snack_text.value = `GIF下載完成 (${timeSpent}秒)`;
-      copyResult.value = true;
-    });
-
-    // Using any to work around gif.js type definition limitations
-    (gif as any).on('error', (error: Error) => {
-      reportErrorToDiscord(error);
-      isGeneratingGif.value = false;
-      snack_text.value = 'GIF生成失敗';
-      copyResult.value = true;
-    });
-
-    gif.render();
-  } catch (error) {
-    reportErrorToDiscord(error as Error);
-    isGeneratingGif.value = false;
-    snack_text.value = 'GIF生成失敗';
-    copyResult.value = true;
-  }
-}
 
 async function downloadImage() {
   if (isDownloading.value) return;
@@ -279,6 +195,16 @@ const copyImage = async () => {
   snack_text.value = "圖片複製成功";
 }
 
+const offscreenCanvas = (() => {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d', {
+    alpha: false, // 不需要透明通道
+    willReadFrequently: true // 優化頻繁讀取
+  }) ?? new CanvasRenderingContext2D;
+  return { canvas, ctx };
+})();
+
+
 var blobUrl = '';
 async function getPngBlob() {
   if (blobUrl) {
@@ -292,8 +218,7 @@ async function getPngBlob() {
     img.onload = resolve;
   });
 
-  let canvas = document.createElement('canvas');
-  let ctx = canvas.getContext('2d') ?? new CanvasRenderingContext2D();
+  const { canvas, ctx } = offscreenCanvas;
   canvas.width = img.width;
   canvas.height = img.height;
   ctx.drawImage(img, 0, 0);

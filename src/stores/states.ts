@@ -83,7 +83,7 @@ export const useData = defineStore("Data", () => {
     var filted = cardsData.value;
     var episodeFilter = new Set<string>();
     query.mygoFilter.forEach((element) => {
-        episodeFilter.add(`1-${element}`);
+      episodeFilter.add(`1-${element}`);
     });
     query.avemujicaFilter.forEach((element) => {
       episodeFilter.add(`2-${element}`);
