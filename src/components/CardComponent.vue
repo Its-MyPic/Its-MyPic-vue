@@ -134,8 +134,8 @@ async function downloadGif() {
 
     // Create array of frame numbers
     const frames = Array.from(
-      { length: props.cardData.frameEnd - props.cardData.frameStart + 1 },
-      (_, i) => props.cardData.frameStart + i
+      { length: props.cardData.frameEnd - props.cardData.frameStart - 4 },
+      (_, i) => props.cardData.frameStart + i + 2
     );
 
     // Fetch all frames in parallel
