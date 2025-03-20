@@ -13,7 +13,9 @@
     "protobuf": "pbjs -t static-module -w es6 -o src/plugins/data.js public/data/data.proto; pbts -o src/plugins/data.d.ts src/plugins/data.js"
   },
   "dependencies": {
+    "@types/gif.js": "^0.2.5",
     "core-js": "^3.41.0",
+    "gif.js": "^0.2.0",
     "opencc-js": "^1.0.5",
     "pinia": "^3.0.1",
     "protobufjs": "^7.4.0",

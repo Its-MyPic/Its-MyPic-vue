@@ -33,8 +33,9 @@
               回報
               <ReportDialog :fileName="imgUrl" :text="text" />
             </v-btn>
-            <v-btn @click="downloadImage">下載</v-btn>
-            <v-btn v-long-press="() => copy(true)" @click="() => copy(false)">複製</v-btn>
+            <v-btn @click="downloadImage" :loading="isDownloading">下載</v-btn>
+            <v-btn @click="downloadGif" :loading="isGeneratingGif">GIF</v-btn>
+            <v-btn v-long-press="() => copy(true)" @click="() => copy(false)" :loading="isCopying">複製</v-btn>
             <v-btn :href="videoLinkWithTimestamp" target="_blank">
               從這裡開始看
             </v-btn>
@@ -49,13 +50,13 @@
       </div>
     </v-snackbar>
   </div>
-
 </template>
 
 <script setup lang="ts">
 import { computed, ref, type PropType } from 'vue';
 import { useCopyMode } from '@/stores/states';
 import { data } from '@/plugins/data';
+import GIF from 'gif.js';
 
 const copyURLMode = useCopyMode();
 
@@ -77,8 +78,6 @@ const episode = props.cardData.episode;
 const frame_start = props.cardData.frameStart;
 const framePrefer = props.cardData.framePrefer;
 
-
-
 const session = season == 2 ? 'Ave Mujica' : 'MyGO';
 const episodeText = `${session} 第${episode}話`;
 
@@ -92,30 +91,129 @@ const videoLinkWithTimestamp = `${videoLink}&t=${urlSec}s`;
 const totalSec = frame_start / 23.976;
 const timestamp = `${Math.floor(totalSec / 60)}:${('0' + Math.floor(totalSec % 60)).slice(-2)}`;
 
-
-
-// console.log(videoLinkWithTimestamp);
-
 const baseUrl = 'https://mypic.0m0.uk/images/';
 const imgUrl = computed(() => `${baseUrl}${season}/${episode}/${framePrefer}.webp`);
 
 const showDialog = ref(false);
 const copyResult = ref(false);
 const snack_text = ref('連結複製成功');
+const isGeneratingGif = ref(false);
+const isDownloading = ref(false);
+const isCopying = ref(false);
+
+async function convertWebpToPng(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx?.drawImage(img, 0, 0);
+      resolve(img);
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+async function downloadGif() {
+  if (isGeneratingGif.value) return;
+  isGeneratingGif.value = true;
+  snack_text.value = 'GIF生成中...';
+  copyResult.value = true;
+
+  const startTime = performance.now();
+  try {
+    const gif = new GIF({
+      workers: 2,
+      quality: 10,
+      workerScript: '/gif.worker.js',
+    });
+
+    // Create array of frame numbers
+    const frames = Array.from(
+      { length: props.cardData.frameEnd - props.cardData.frameStart + 1 },
+      (_, i) => props.cardData.frameStart + i
+    );
+
+    // Fetch all frames in parallel
+    const framePromises = frames.map(frame => {
+      const frameUrl = `${baseUrl}${season}/${episode}/${frame}.webp`;
+      return convertWebpToPng(frameUrl);
+    });
+
+    // Wait for all frames to load
+    const images = await Promise.all(framePromises);
+
+    // Add all frames to gif
+    const frameDelay = Math.round(1000 / 23.976);
+    images.forEach(img => {
+      gif.addFrame(img, { delay: frameDelay });
+    });
+
+    // Render and download
+    gif.on('finished', (blob: Blob) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${text}.gif`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      const endTime = performance.now();
+      const timeSpent = ((endTime - startTime) / 1000).toFixed(1);
+      isGeneratingGif.value = false;
+      snack_text.value = `GIF下載完成 (${timeSpent}秒)`;
+      copyResult.value = true;
+    });
+
+    // Using any to work around gif.js type definition limitations
+    (gif as any).on('error', (error: Error) => {
+      reportErrorToDiscord(error);
+      isGeneratingGif.value = false;
+      snack_text.value = 'GIF生成失敗';
+      copyResult.value = true;
+    });
+
+    gif.render();
+  } catch (error) {
+    reportErrorToDiscord(error as Error);
+    isGeneratingGif.value = false;
+    snack_text.value = 'GIF生成失敗';
+    copyResult.value = true;
+  }
+}
 
 async function downloadImage() {
-  const dlUrl = await getPngBlob();
-  const response = await fetch(dlUrl);
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
+  if (isDownloading.value) return;
+  isDownloading.value = true;
+  snack_text.value = '下載中...';
+  copyResult.value = true;
 
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `${text}.png`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  try {
+    const dlUrl = await getPngBlob();
+    const response = await fetch(dlUrl);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${text}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    snack_text.value = '下載完成';
+  } catch (error) {
+    reportErrorToDiscord(error as Error);
+    snack_text.value = '下載失敗';
+  } finally {
+    isDownloading.value = false;
+    copyResult.value = true;
+  }
 }
 
 var isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
@@ -134,9 +232,10 @@ const copy = async (longPress: boolean) => {
     }
   }
 
+  if (isCopying.value) return;
+  isCopying.value = true;
   copyResult.value = false;
   const preferCopyURL = longPress || copyURLMode.copyMode;
-  // console.log(preferCopyURL);
   try {
     if (preferCopyURL) {
       await copyUrl();
@@ -158,6 +257,7 @@ const copy = async (longPress: boolean) => {
       }
     }
   } finally {
+    isCopying.value = false;
     copyResult.value = true;
   }
 }
@@ -173,12 +273,12 @@ const copyImage = async () => {
       const blobUrl = await getPngBlob();
       const data = await fetch(blobUrl);
       return await data.blob();
-    }
-    )(),
-  })
-  await navigator.clipboard.write([item])
+    })(),
+  });
+  await navigator.clipboard.write([item]);
   snack_text.value = "圖片複製成功";
 }
+
 var blobUrl = '';
 async function getPngBlob() {
   if (blobUrl) {
@@ -216,8 +316,6 @@ async function reportErrorToDiscord(e: Error) {
     console.error('Failed to send error report to Discord:', fetchError);
   }
 }
-
-
 </script>
 
 <style scoped>
