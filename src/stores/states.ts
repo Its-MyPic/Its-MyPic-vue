@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref, watch } from "vue";
 import { data } from "@/plugins/data";
+import { FFmpeg } from '@ffmpeg/ffmpeg'
+import { fetchFile, toBlobURL } from '@ffmpeg/util'
 type Card = data.Info;
 var Data = data.Data;
 
@@ -10,18 +12,14 @@ import { ConverterFactory } from "opencc-js/core";
 import cn from "opencc-js/from/cn";
 // @ts-ignore
 import tw from "opencc-js/to/tw";
-import { InferencePriority } from "typescript";
-import CardComponent from "@/components/CardComponent.vue";
 
 const normalize = (query: string) => {
   return query.toLowerCase().replace("你", "妳").replace("啊", "阿");
 };
-
 const CC = () => {
   const converter = ConverterFactory(cn, tw);
   return converter;
 };
-
 export const useReverse = defineStore("Reverse", {
   state: () => ({ reverse: false }),
 });
