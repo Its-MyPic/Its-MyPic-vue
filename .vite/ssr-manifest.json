@@ -21,7 +21,7 @@
     "/assets/@protobufjs-f4nnaicZ.js"
   ],
   "\u0000plugin-vue:export-helper": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "\u0000vite/modulepreload-polyfill.js": [],
@@ -158,22 +158,94 @@
     "/assets/hookable-B7_1qfUG.js"
   ],
   "node_modules/opencc-js/dist/esm-lib/core.js": [
-    "/assets/opencc-js-D-mJJ3do.js"
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/HKVariants.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/HKVariantsRev.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/HKVariantsRevPhrases.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/JPShinjitaiCharacters.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/JPShinjitaiPhrases.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/JPVariants.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/JPVariantsRev.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
   ],
   "node_modules/opencc-js/dist/esm-lib/dict/STCharacters.js": [
-    "/assets/opencc-js-D-mJJ3do.js"
+    "/assets/opencc-js-D2OnpAg6.js"
   ],
   "node_modules/opencc-js/dist/esm-lib/dict/STPhrases.js": [
-    "/assets/opencc-js-D-mJJ3do.js"
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TSCharacters.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TSPhrases.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TWPhrasesIT.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TWPhrasesName.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TWPhrasesOther.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TWPhrasesRev.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
   ],
   "node_modules/opencc-js/dist/esm-lib/dict/TWVariants.js": [
-    "/assets/opencc-js-D-mJJ3do.js"
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TWVariantsRev.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/dict/TWVariantsRevPhrases.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
   ],
   "node_modules/opencc-js/dist/esm-lib/from/cn.js": [
-    "/assets/opencc-js-D-mJJ3do.js"
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/from/hk.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/from/jp.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/from/tw.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/from/twp.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/preset/full.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/to/cn.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/to/hk.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/to/jp.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
   ],
   "node_modules/opencc-js/dist/esm-lib/to/tw.js": [
-    "/assets/opencc-js-D-mJJ3do.js"
+    "/assets/opencc-js-D2OnpAg6.js"
+  ],
+  "node_modules/opencc-js/dist/esm-lib/to/twp.js": [
+    "/assets/opencc-js-D2OnpAg6.js"
   ],
   "node_modules/packrup/dist/index.mjs": [
     "/assets/packrup-l0sNRNKZ.js"
@@ -987,85 +1059,85 @@
   ],
   "src/App.vue?vue&type=script&setup=true&lang.ts": [],
   "src/assets/setting.json": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/AppBarComponent.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/FilterDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/FooterComponent.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/GifDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/MultiSelect.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/ReportDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/ResultGrid.vue": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/ResultGrid.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/card/ActionButtons.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/card/CardDialog.vue": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/card/CardDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/card/CardThumbnail.vue": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/card/CardThumbnail.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/components/card/index.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/composables/useCanvas.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/composables/useErrorReporting.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/composables/useImageOperations.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/constants/filters.ts": [],
   "src/main.ts": [],
   "src/pages/index.vue": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/pages/index.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/plugins/data.js": [],
@@ -1074,26 +1146,26 @@
   "src/stores/modules/dataStore.ts": [],
   "src/stores/modules/filterStore.ts": [],
   "src/stores/modules/resultsStore.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/stores/modules/searchStore.ts": [],
   "src/stores/modules/uiStore.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/utils/debounce.ts": [],
   "src/utils/lruCache.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/utils/textNormalization.ts": [],
   "src/utils/timeUtils.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "src/utils/urlUtils.ts": [
-    "/assets/index-DBO-bXPs.js",
+    "/assets/index-DeBJh6Gk.js",
     "/assets/index-uKSosJuT.css"
   ],
   "virtual:plugin-vuetify:components/VApp/VApp.sass": [
