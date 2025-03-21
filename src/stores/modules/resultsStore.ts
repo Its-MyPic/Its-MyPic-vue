@@ -47,7 +47,7 @@ export const useResultsStore = defineStore("results", () => {
 
     // 2. Apply text search
     if (searchStore.normalizedQuery) {
-      filtered = filtered.filter(card => 
+      filtered = filtered.filter(card =>
         normalizeText(card.text).includes(searchStore.normalizedQuery)
       );
     }

@@ -39,8 +39,8 @@ defineEmits<{
 const text = props.cardData.text;
 const season = props.cardData.season;
 const episode = props.cardData.episode;
-const frameStart = props.cardData.frameStart;
-const framePrefer = props.cardData.framePrefer;
+const frameStart = props.cardData.frame.start;
+const framePrefer = props.cardData.frame.prefer;
 
 // Generate episode text (e.g., "MyGO 第1話")
 const episodeText = computed(() => 
@@ -59,7 +59,6 @@ const imgUrl = computed(() =>
 </script>
 
 <style scoped>
-
 .timestamp-overlay {
   position: absolute;
   top: 0;

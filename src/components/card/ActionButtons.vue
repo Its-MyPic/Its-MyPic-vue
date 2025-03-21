@@ -73,7 +73,7 @@ watch(() => imageOps.operationStatus.value, (newStatus: string) => {
 // Calculate video URL with timestamp
 const videoUrl = computed(() => {
   const timestamp = calculateVideoTimestamp(
-    props.cardData.frameStart,
+    props.cardData.frame.start,
     MYGO_FRAME_OFFSETS,
     props.cardData.episode,
     props.cardData.season === Season.MYGO

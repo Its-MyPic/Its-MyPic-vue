@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, readonly } from "vue";
 import type { Card } from "@/types/card";
+import { infoToCard } from "@/types/card";
 import { data } from "@/plugins/data";
 
 export const useDataStore = defineStore("data", () => {
@@ -18,7 +19,8 @@ export const useDataStore = defineStore("data", () => {
       const response = await fetch("/data/data.bin");
       const buf = await response.arrayBuffer();
       const decoded = data.Data.decode(new Uint8Array(buf));
-      cards.value = decoded.info as Card[];
+      // 直接將 IInfo 轉換為 Card
+      cards.value = decoded.info.map(info => infoToCard(info));
     } catch (e) {
       error.value = e instanceof Error ? e : new Error("Failed to fetch cards");
       cards.value = [];

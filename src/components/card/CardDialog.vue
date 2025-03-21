@@ -76,7 +76,7 @@ defineEmits<{
 const text = props.cardData.text;
 const season = props.cardData.season;
 const episode = props.cardData.episode;
-const frameStart = props.cardData.frameStart;
+const frameStart = props.cardData.frame.start;
 
 // Generate episode text
 const episodeText = computed(() =>

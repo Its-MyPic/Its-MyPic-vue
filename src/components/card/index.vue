@@ -26,8 +26,8 @@
       :text="cardData.text"
       :season="cardData.season"
       :episode="cardData.episode"
-      :frame-start="cardData.frameStart"
-      :frame-end="cardData.frameEnd"
+      :frame-start="cardData.frame.start"
+      :frame-end="cardData.frame.end"
     />
   </div>
 </template>
@@ -72,7 +72,7 @@ const imageUrl = computed(() => generateImageUrl(
   props.baseImageUrl,
   props.cardData.season,
   props.cardData.episode,
-  props.cardData.framePrefer
+  props.cardData.frame.prefer
 ));
 
 const handleReport = () => {
