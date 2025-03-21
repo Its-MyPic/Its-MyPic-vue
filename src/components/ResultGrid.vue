@@ -1,10 +1,10 @@
 <template>
   <Suspense>
     <template #default>
-      <Grid :length="filteredCards.length ? filteredCards.length : 1" :pageSize="cardsPerRow"
+      <Grid :length="cards.length ? cards.length : 1" :pageSize="cardsPerRow"
         :pageProvider="pageProvider" :get-key="getKey" :page-provider-debounce-time="100" class="grid ma-5">
         <template v-slot:placeholder="{ index, style }">
-          <div class="item" :style="style">{{ filteredCards.length ? "還在GO..." : "" }}</div>
+          <div class="item" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
         </template>
         <template v-slot:default="{ item, style, index }">
           <CardComponent :styles="style" :cardData="item" />
@@ -21,15 +21,22 @@
 <script setup lang="ts">
 import CardComponent from "./CardComponent.vue";
 import Grid from "vue-virtual-scroll-grid";
-import { useReverse, useData } from '@/stores/states'
+import { useDataStore, useResultsStore, useUIStore } from '@/stores';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 
-const reverse = useReverse();
-const data = useData();
-data.fetchData();
+const resultsStore = useResultsStore();
+const uiStore = useUIStore();
 
-const { filteredCards } = storeToRefs(data);
+// No need for dataStore since we fetch in App.vue
+const { filteredCards: cards } = storeToRefs(resultsStore);
+
+// Initialize data at component level if needed
+onMounted(async () => {
+  // No need to call fetchData here since it's handled in App.vue
+  calcRows();
+  window.addEventListener("resize", calcRows);
+});
 
 let cardsPerRow = ref(4);
 const calcRows = () => {
@@ -44,8 +51,9 @@ const pageProvider = computed(() => {
       behavior: "smooth",
     });
   }
-  const filtered = filteredCards.value;
-  const update = reverse.reverse;
+  const filtered = cards.value;
+  // Using isReversed from uiStore
+  const update = uiStore.isReversed;
   return (page: number, pageSize: number) => {
     const slice = filtered.slice(page * pageSize, (page + 1) * pageSize);
     return Promise.resolve(slice);
@@ -56,15 +64,10 @@ const getKey = (item: any) => {
   return item.value?.segmentId;
 };
 
-onMounted(() => {
-  calcRows();
-  window.addEventListener("resize", calcRows);
-});
 
 onUnmounted(() => {
   window.removeEventListener("resize", calcRows);
 });
-
 </script>
 
 <style scoped>

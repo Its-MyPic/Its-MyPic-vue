@@ -10,8 +10,8 @@
             class="short-search" @keyup.enter="emitSearchQuery" @click:clear="clearMessage"
             @input="debounceEmitSearchQuery" autofocus>
             <template v-slot:append>
-              <v-icon @click="reverse.reverse = !reverse.reverse"
-                :icon="reverse.reverse ? mdiSortVariant : mdiSortReverseVariant">
+              <v-icon @click="uiStore.toggleReverse"
+                :icon="uiStore.isReversed ? mdiSortVariant : mdiSortReverseVariant">
               </v-icon>
             </template>
             <template v-slot:append-inner>
@@ -25,30 +25,27 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import { mdiSortReverseVariant, mdiSortVariant } from "@mdi/js";
-import { useReverse, useQuery } from "@/stores/states";
+import { useUIStore, useSearchStore } from "@/stores";
+import { debounce } from "@/utils/debounce";
 
-const reverse = useReverse();
-const query = useQuery();
-
-const debounceTimeout = ref<number>();
+const uiStore = useUIStore();
+const searchStore = useSearchStore();
 
 const searchQuery = ref("");
 
-const debounceEmitSearchQuery = () => {
-  clearTimeout(debounceTimeout.value);
-  debounceTimeout.value = setTimeout(emitSearchQuery, 500);
-};
+const debounceEmitSearchQuery = debounce(() => {
+  searchStore.query = searchQuery.value;
+}, 500);
 
 const emitSearchQuery = () => {
-  clearTimeout(debounceTimeout.value);
-  query.query = searchQuery.value;
+  searchStore.query = searchQuery.value;
 };
 
 const clearMessage = () => {
   searchQuery.value = "";
-  query.query = "";
+  searchStore.query = "";
 };
 
 onMounted(() => {
@@ -56,7 +53,7 @@ onMounted(() => {
   const q = urlParams.get('q');
   if (q) {
     searchQuery.value = q;
-    query.query = q;
+    searchStore.query = q;
   }
 });
 </script>

@@ -65,11 +65,12 @@
 
 <script setup lang="ts">
 import { computed, ref, type PropType } from 'vue';
-import { useCopyMode } from '@/stores/states';
+import { useUIStore } from '@/stores';
 import { data } from '@/plugins/data';
 import GifDialog from './GifDialog.vue';
+import { FRAME_RATE, MYGO_FRAME_OFFSETS, SEASON_NAMES, Season } from '@/constants/filters';
 
-const copyURLMode = useCopyMode();
+const uiStore = useUIStore();
 const gifDialogRef = ref<InstanceType<typeof GifDialog> | null>(null);
 import settings from '../assets/setting.json';
 const props = defineProps({
@@ -89,17 +90,16 @@ const episode = props.cardData.episode;
 const frame_start = props.cardData.frameStart;
 const framePrefer = props.cardData.framePrefer;
 
-const session = season == 2 ? 'Ave Mujica' : 'MyGO';
+const session = season == Season.AVE_MUJICA ? SEASON_NAMES[Season.AVE_MUJICA] : SEASON_NAMES[Season.MYGO];
 const episodeText = `${session} 第${episode}話`;
 
 const episodeKey = `${episode}` as keyof typeof settings.videoLink[typeof session];
 const videoLink = settings.videoLink[session][episodeKey];
 
-const offset = [0, 0, 34288, 68333, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-const urlSec = Math.round((props.cardData.frameStart + (season == 1 ? offset[episode] : 0)) / 23.976);
+const urlSec = Math.round((props.cardData.frameStart + (season == Season.MYGO ? MYGO_FRAME_OFFSETS[episode] : 0)) / FRAME_RATE);
 const videoLinkWithTimestamp = `${videoLink}&t=${urlSec}s`;
 
-const totalSec = frame_start / 23.976;
+const totalSec = frame_start / FRAME_RATE;
 const timestamp = `${Math.floor(totalSec / 60)}:${('0' + Math.floor(totalSec % 60)).slice(-2)}`;
 
 const baseUrl = 'https://mypic.0m0.uk/images/';
@@ -160,7 +160,7 @@ const copy = async (longPress: boolean) => {
   if (isCopying.value) return;
   isCopying.value = true;
   copyResult.value = false;
-  const preferCopyURL = longPress || copyURLMode.copyMode;
+  const preferCopyURL = longPress || uiStore.copyMode;
   try {
     if (preferCopyURL) {
       await copyUrl();
