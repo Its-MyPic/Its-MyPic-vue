@@ -224,5 +224,6 @@ async function reportErrorToDiscord(e: Error) {
 
 defineExpose({
   CreateGif,
+  isGeneratingGif,
 });
 </script>

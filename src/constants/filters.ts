@@ -1,3 +1,8 @@
+export type VideoLinkConfig = {
+  'MyGO': { [key: string]: string };
+  'Ave Mujica': { [key: string]: string };
+};
+
 export const enum Season {
   MYGO = 1,
   AVE_MUJICA = 2

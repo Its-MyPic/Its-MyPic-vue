@@ -8,8 +8,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionButtons: typeof import('./src/components/card/ActionButtons.vue')['default']
     AppBarComponent: typeof import('./src/components/AppBarComponent.vue')['default']
+    Card: typeof import('./src/components/card/index.vue')['default']
     CardComponent: typeof import('./src/components/CardComponent.vue')['default']
+    CardDialog: typeof import('./src/components/card/CardDialog.vue')['default']
+    CardThumbnail: typeof import('./src/components/card/CardThumbnail.vue')['default']
     FilterDialog: typeof import('./src/components/FilterDialog.vue')['default']
     FooterComponent: typeof import('./src/components/FooterComponent.vue')['default']
     GifDialog: typeof import('./src/components/GifDialog.vue')['default']

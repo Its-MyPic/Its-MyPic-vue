@@ -1,0 +1,86 @@
+<template>
+  <div :style="styles">
+    <card-thumbnail
+      :card-data="cardData"
+      :base-image-url="baseImageUrl"
+      @click="showDialog = true"
+    />
+
+    <card-dialog
+      v-model:show="showDialog"
+      :card-data="cardData"
+      :webhook-url="webhookUrl"
+      :image-url="imageUrl"
+      :video-config="videoConfig"
+      @report="handleReport"
+      @gif-create="handleGifCreate"
+      :is-gif-creating="gifDialogRef?.isGeneratingGif"
+    >
+      <template #report-dialog>
+        <report-dialog :file-name="imageUrl" :text="cardData.text" />
+      </template>
+    </card-dialog>
+
+    <gif-dialog
+      ref="gifDialogRef"
+      :text="cardData.text"
+      :season="cardData.season"
+      :episode="cardData.episode"
+      :frame-start="cardData.frameStart"
+      :frame-end="cardData.frameEnd"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { generateImageUrl } from '@/utils/urlUtils';
+import type { PropType } from 'vue';
+import type { Card } from '@/types/card';
+import type { VideoLinkConfig } from '@/constants/filters';
+import CardThumbnail from './CardThumbnail.vue';
+import CardDialog from './CardDialog.vue';
+import ReportDialog from '../ReportDialog.vue';
+import GifDialog from '../GifDialog.vue';
+
+const props = defineProps({
+  styles: {
+    type: Object as PropType<Record<string, string>>,
+    required: true,
+  },
+  cardData: {
+    type: Object as PropType<Card>,
+    required: true,
+  },
+  videoConfig: {
+    type: Object as PropType<VideoLinkConfig>,
+    required: true,
+  },
+  webhookUrl: {
+    type: String,
+    required: true,
+  },
+  baseImageUrl: {
+    type: String,
+    default: 'https://mypic.0m0.uk/images/'
+  }
+});
+
+const showDialog = ref(false);
+const gifDialogRef = ref<InstanceType<typeof GifDialog> | null>(null);
+const imageUrl = computed(() => generateImageUrl(
+  props.baseImageUrl,
+  props.cardData.season,
+  props.cardData.episode,
+  props.cardData.framePrefer
+));
+
+const handleReport = () => {
+  // Report dialog is handled via slot
+};
+
+const handleGifCreate = async () => {
+  if (!gifDialogRef.value) return;
+  await gifDialogRef.value.CreateGif();
+};
+</script>

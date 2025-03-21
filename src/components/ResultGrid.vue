@@ -7,7 +7,12 @@
           <div class="item" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
         </template>
         <template v-slot:default="{ item, style, index }">
-          <CardComponent :styles="style" :cardData="item" />
+          <CardComponent 
+            :styles="style" 
+            :card-data="item" 
+            :video-config="settings.videoLink"
+            :webhook-url="webhookUrl"
+          />
         </template>
       </Grid>
     </template>
@@ -19,26 +24,24 @@
 </template>
 
 <script setup lang="ts">
-import CardComponent from "./CardComponent.vue";
+import CardComponent from "./card/index.vue";
 import Grid from "vue-virtual-scroll-grid";
-import { useDataStore, useResultsStore, useUIStore } from '@/stores';
+import { useResultsStore, useUIStore } from '@/stores';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { storeToRefs } from "pinia";
+import type { Card } from '@/types/card';
+import settings from '@/assets/setting.json';
 
 const resultsStore = useResultsStore();
 const uiStore = useUIStore();
 
-// No need for dataStore since we fetch in App.vue
 const { filteredCards: cards } = storeToRefs(resultsStore);
 
-// Initialize data at component level if needed
-onMounted(async () => {
-  // No need to call fetchData here since it's handled in App.vue
-  calcRows();
-  window.addEventListener("resize", calcRows);
-});
+const webhookUrl = computed(() => 
+  `https://discord.com/api/webhooks/${atob(settings.webhook)}`
+);
 
-let cardsPerRow = ref(4);
+let cardsPerRow = ref(24);
 const calcRows = () => {
   cardsPerRow.value = (1 + Math.floor((window.innerWidth - 320) / 310)) * 8;
 };
@@ -52,7 +55,6 @@ const pageProvider = computed(() => {
     });
   }
   const filtered = cards.value;
-  // Using isReversed from uiStore
   const update = uiStore.isReversed;
   return (page: number, pageSize: number) => {
     const slice = filtered.slice(page * pageSize, (page + 1) * pageSize);
@@ -61,9 +63,14 @@ const pageProvider = computed(() => {
 });
 
 const getKey = (item: any) => {
-  return item.value?.segmentId;
+  var temp:Card = item.value;
+  return temp?.segmentId;
 };
 
+onMounted(() => {
+  calcRows();
+  window.addEventListener("resize", calcRows);
+});
 
 onUnmounted(() => {
   window.removeEventListener("resize", calcRows);
