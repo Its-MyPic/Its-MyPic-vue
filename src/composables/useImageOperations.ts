@@ -35,6 +35,7 @@ export function useImageOperations(config: ImageOperationsConfig) {
   const downloadImage = async (imageUrl: string, filename: string) => {
     if (state.isDownloading) return;
     
+    errorReporting.trackAction(`download_image_start:${filename}`);
     state.isDownloading = true;
     state.operationStatus = '下載中...';
 
@@ -55,8 +56,14 @@ export function useImageOperations(config: ImageOperationsConfig) {
       URL.revokeObjectURL(url);
       
       state.operationStatus = '下載完成';
+      errorReporting.trackAction(`download_image_success:${filename}`);
     } catch (error) {
-      await errorReporting.reportError(error as Error);
+      errorReporting.trackAction(`download_image_error:${filename}`);
+      await errorReporting.reportError(error as Error, undefined, {
+        imageUrl,
+        filename,
+        operation: 'download'
+      });
       state.operationStatus = '下載失敗';
     } finally {
       state.isDownloading = false;
@@ -67,6 +74,7 @@ export function useImageOperations(config: ImageOperationsConfig) {
   const copyImage = async (imageUrl: string) => {
     if (state.isCopying) return;
     
+    errorReporting.trackAction(`copy_image_start`);
     state.isCopying = true;
     state.operationStatus = '';
 
@@ -83,8 +91,14 @@ export function useImageOperations(config: ImageOperationsConfig) {
       
       await navigator.clipboard.write([item]);
       state.operationStatus = '圖片複製成功';
+      errorReporting.trackAction(`copy_image_success`);
     } catch (error) {
-      await errorReporting.reportError(error as Error);
+      errorReporting.trackAction(`copy_image_error`);
+      await errorReporting.reportError(error as Error, undefined, {
+        imageUrl,
+        operation: 'copyImage',
+        clipboardSupported: Boolean(navigator.clipboard)
+      });
       state.operationStatus = '複製失敗，請稍後重試';
       throw error;
     } finally {
@@ -96,14 +110,21 @@ export function useImageOperations(config: ImageOperationsConfig) {
   const copyUrl = async (url: string) => {
     if (state.isCopying) return;
     
+    errorReporting.trackAction(`copy_url_start`);
     state.isCopying = true;
     state.operationStatus = '';
 
     try {
       await navigator.clipboard.writeText(url);
       state.operationStatus = '連結複製成功';
+      errorReporting.trackAction(`copy_url_success`);
     } catch (error) {
-      await errorReporting.reportError(error as Error);
+      errorReporting.trackAction(`copy_url_error`);
+      await errorReporting.reportError(error as Error, undefined, {
+        url,
+        operation: 'copyUrl',
+        clipboardSupported: Boolean(navigator.clipboard)
+      });
       state.operationStatus = '複製失敗';
       throw error;
     } finally {
@@ -114,7 +135,11 @@ export function useImageOperations(config: ImageOperationsConfig) {
   // Cleanup when component is unmounted
   const cleanup = () => {
     canvas.cleanup();
+    errorReporting.trackAction('image_operations_cleanup');
   };
+
+  // Track component mounting
+  errorReporting.trackComponent('ImageOperations', true);
 
   return {
     isDownloading: toRef(state, 'isDownloading'),
