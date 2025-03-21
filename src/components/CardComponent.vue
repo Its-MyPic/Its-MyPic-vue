@@ -34,7 +34,15 @@
               <ReportDialog :fileName="imgUrl" :text="text" />
             </v-btn>
             <v-btn @click="downloadImage" :loading="isDownloading">下載</v-btn>
-            <v-btn @click="() => gifDialogRef?.CreateGif()">GIF</v-btn>
+            <v-btn @click="async () => {
+              if (!gifDialogRef) return;
+              isGifCreating = true;
+              try {
+                await gifDialogRef.CreateGif();
+              } finally {
+                isGifCreating = false;
+              }
+            }" :loading="isGifCreating">GIF</v-btn>
             <v-btn v-long-press="() => copy(true)" @click="() => copy(false)" :loading="isCopying">複製</v-btn>
             <v-btn :href="videoLinkWithTimestamp" target="_blank">
               從這裡開始看
@@ -102,6 +110,7 @@ const copyResult = ref(false);
 const snack_text = ref('連結複製成功');
 const isDownloading = ref(false);
 const isCopying = ref(false);
+const isGifCreating = ref(false);
 
 async function downloadImage() {
   if (isDownloading.value) return;
@@ -203,7 +212,6 @@ const offscreenCanvas = (() => {
   }) ?? new CanvasRenderingContext2D;
   return { canvas, ctx };
 })();
-
 
 var blobUrl = '';
 async function getPngBlob() {
