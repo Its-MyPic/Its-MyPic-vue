@@ -2,14 +2,6 @@ import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
 import { debounce } from "@/utils/debounce";
 import { normalizeText } from "@/utils/textNormalization";
-// @ts-ignore
-import { ConverterFactory } from "opencc-js/core";
-// @ts-ignore
-import cn from "opencc-js/from/cn";
-// @ts-ignore
-import tw from "opencc-js/to/tw";
-
-const converter = ConverterFactory(cn, tw);
 
 export const useSearchStore = defineStore("search", () => {
   const query = ref("");
@@ -17,7 +9,7 @@ export const useSearchStore = defineStore("search", () => {
   // Convert and normalize query text
   const normalizedQuery = computed(() => {
     if (!query.value) return "";
-    return normalizeText(converter(query.value));
+    return normalizeText(query.value);
   });
 
   // Sync with URL
