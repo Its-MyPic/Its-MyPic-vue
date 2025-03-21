@@ -21,8 +21,8 @@
     "/assets/@protobufjs-f4nnaicZ.js"
   ],
   "\u0000plugin-vue:export-helper": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "\u0000vite/modulepreload-polyfill.js": [],
   "\u0000vite/preload-helper.js": [],
@@ -1059,86 +1059,86 @@
   ],
   "src/App.vue?vue&type=script&setup=true&lang.ts": [],
   "src/assets/setting.json": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/AppBarComponent.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/FilterDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/FooterComponent.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/GifDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/MultiSelect.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/ReportDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/ResultGrid.vue": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/ResultGrid.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/card/ActionButtons.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/card/CardDialog.vue": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/card/CardDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/card/CardThumbnail.vue": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/card/CardThumbnail.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/components/card/index.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/composables/useCanvas.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/composables/useErrorReporting.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/composables/useImageOperations.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/constants/filters.ts": [],
   "src/main.ts": [],
   "src/pages/index.vue": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/pages/index.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/plugins/data.js": [],
   "src/plugins/long-press.ts": [],
@@ -1146,27 +1146,28 @@
   "src/stores/modules/dataStore.ts": [],
   "src/stores/modules/filterStore.ts": [],
   "src/stores/modules/resultsStore.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/stores/modules/searchStore.ts": [],
   "src/stores/modules/uiStore.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
+  "src/types/card.ts": [],
   "src/utils/debounce.ts": [],
   "src/utils/lruCache.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/utils/textNormalization.ts": [],
   "src/utils/timeUtils.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "src/utils/urlUtils.ts": [
-    "/assets/index-DeBJh6Gk.js",
-    "/assets/index-uKSosJuT.css"
+    "/assets/index-DKFowt-b.js",
+    "/assets/index-BlgHL4qe.css"
   ],
   "virtual:plugin-vuetify:components/VApp/VApp.sass": [
     "/assets/vuetify-LsV7B-xS.js",
