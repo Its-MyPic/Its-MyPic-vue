@@ -43,7 +43,15 @@ export const useFilterStore = defineStore("filter", () => {
     character: characterId.value // FUTURE-FEATURE: 角色篩選相關代碼
   }));
 
-  // URL sync
+  // 輔助函數：比較兩個數組是否相等
+  function arraysEqual(a: number[], b: number[]): boolean {
+    if (a.length !== b.length) return false;
+    const sortedA = [...a].sort((x, y) => x - y);
+    const sortedB = [...b].sort((x, y) => x - y);
+    return sortedA.every((val, idx) => val === sortedB[idx]);
+  }
+
+  // URL sync with state comparison
   const updateFilterParams = () => {
     const url = new URL(window.location.href);
     
@@ -56,6 +64,16 @@ export const useFilterStore = defineStore("filter", () => {
       ep |= 1 << (episode + 12);
     });
 
+    // 檢查是否有實際變化
+    const currentEp = url.searchParams.get("ep");
+    const newEpString = ep === 0 ? null : ep.toString();
+    
+    if (currentEp === newEpString) {
+      console.debug('Filter params unchanged, skip updating URL');
+      return false; // 無變化，不更新URL
+    }
+    
+    // 更新URL參數
     if (ep === 0) {
       url.searchParams.delete("ep");
     } else {
@@ -63,14 +81,30 @@ export const useFilterStore = defineStore("filter", () => {
     }
 
     window.history.pushState({}, "", url.toString());
+    return true; // 有變化，已更新URL
   };
 
   // 手動觸發更新函數
   const flush = () => {
+    // 檢查buffer與當前計算狀態是否相同
+    const isMygoEqual = arraysEqual(mygoEpisodesBuffer.value, mygoEpisodes.value);
+    const isAvemujicaEqual = arraysEqual(avemujicaEpisodesBuffer.value, avemujicaEpisodes.value);
+    const isCharacterEqual = characterIdBuffer.value === characterId.value;
+    
+    // 如果所有值都相同，則無需更新
+    if (isMygoEqual && isAvemujicaEqual && isCharacterEqual) {
+      console.debug('Filter state unchanged, skip updating');
+      return false; // 返回false表示沒有變化
+    }
+    
+    // 更新計算狀態
     mygoEpisodes.value = [...mygoEpisodesBuffer.value];
     avemujicaEpisodes.value = [...avemujicaEpisodesBuffer.value];
     characterId.value = characterIdBuffer.value;
+    
+    // 更新URL
     updateFilterParams();
+    return true; // 返回true表示有變化
   };
 
   return {
@@ -86,6 +120,9 @@ export const useFilterStore = defineStore("filter", () => {
     activeFilters,
     
     // 手動觸發更新
-    flush
+    flush,
+
+    // 從URL解析episodes
+    parseInitialEpisodes
   };
 });
