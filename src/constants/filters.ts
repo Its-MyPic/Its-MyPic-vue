@@ -22,7 +22,6 @@ export const EPISODES = {
 export const FRAME_RATE = 23.976;
 
 export const MYGO_FRAME_OFFSETS = [
-  0,  // Episode 0 (not used)
   0,  // Episode 1
   0,  // Episode 2
   34288,  // Episode 3
