@@ -9,6 +9,13 @@ import { normalizeText } from "@/utils/textNormalization";
 import type { Card } from "@/types/card";
 import { Season } from "@/constants/filters";
 
+// 擴展 Card 類型以增加正規化文本屬性
+declare module '@/types/card' {
+  interface Card {
+    normalizedText?: string;
+  }
+}
+
 export const useResultsStore = defineStore("results", () => {
   const dataStore = useDataStore();
   const filterStore = useFilterStore();
@@ -17,18 +24,36 @@ export const useResultsStore = defineStore("results", () => {
 
   // Cache for filtered results
   const filterCache = new LRUCache<string, Card[]>(50);
+  // 搜索結果快取
+  const searchCache = new LRUCache<string, Card[]>(50);
+
+  // 優化快取鍵生成
+  const getFilterCacheKey = (filters: any) => {
+    const mygo = Array.from(filters.mygo).sort().join(',');
+    const avemujica = Array.from(filters.avemujica).sort().join(',');
+    return `mygo:${mygo}|avemujica:${avemujica}`;
+  };
+
+  // 預先正規化文本
+  const ensureNormalizedText = (cards: Card[]) => {
+    for (const card of cards) {
+      if (card.text && !card.normalizedText) {
+        card.normalizedText = normalizeText(card.text);
+      }
+    }
+    return cards;
+  };
 
   const filteredCards = computed(() => {
-    const cards = dataStore.cards;
-    if (!cards.length) return [];
+    const originalCards = dataStore.cards;
+    if (!originalCards.length) return [];
 
-    // 1. Apply episode filters
+    // 確保所有卡片都有正規化文本並建立新陣列
+    const cards = ensureNormalizedText([...originalCards]);
+
+    // 1. 應用過濾器
     const filters = filterStore.activeFilters;
-    const cacheKey = JSON.stringify({
-      mygo: Array.from(filters.mygo),
-      avemujica: Array.from(filters.avemujica),
-      // FUTURE-FEATURE: 當實現角色篩選功能時，需要在這裡加入 character 屬性
-    });
+    const cacheKey = getFilterCacheKey(filters);
 
     let filtered: Card[];
     if (filterCache.has(cacheKey)) {
@@ -49,14 +74,23 @@ export const useResultsStore = defineStore("results", () => {
       filterCache.set(cacheKey, filtered);
     }
 
-    // 2. Apply text search
+    // 2. 應用文本搜索 - 使用多級快取
     if (searchStore.normalizedQuery) {
-      filtered = filtered.filter(card =>
-        normalizeText(card.text).includes(searchStore.normalizedQuery)
-      );
+      const searchCacheKey = `${cacheKey}:search:${searchStore.normalizedQuery}`;
+      
+      if (searchCache.has(searchCacheKey)) {
+        filtered = searchCache.get(searchCacheKey)!;
+      } else {
+        // 使用預先正規化的文本
+        const searchResults = filtered.filter(card =>
+          card.normalizedText?.includes(searchStore.normalizedQuery)
+        );
+        searchCache.set(searchCacheKey, searchResults);
+        filtered = searchResults;
+      }
     }
 
-    // 3. Apply reverse if needed
+    // 3. 應用 reverse
     return uiStore.isReversed ? [...filtered].reverse() : filtered;
   });
 
