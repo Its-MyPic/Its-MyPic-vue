@@ -6,7 +6,7 @@
       </div>
       <v-row dense class="mt-2">
         <v-col class="text-center">
-          <v-text-field v-model="localQuery" single-line hide-details clearable label="搜尋" variant="outlined"
+          <v-text-field v-model="searchStore.queryBuffer" single-line hide-details clearable label="搜尋" variant="outlined"
             class="short-search" @keyup.enter="applySearch" @click:clear="clearMessage" autofocus>
             <template v-slot:append>
               <v-icon @click="uiStore.toggleReverse"
@@ -24,35 +24,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import { mdiSortReverseVariant, mdiSortVariant } from "@mdi/js";
 import { useUIStore, useSearchStore } from "@/stores";
-import { debounce } from "@/utils/debounce";
 
 const uiStore = useUIStore();
 const searchStore = useSearchStore();
 
-// 本地狀態
-const localQuery = ref(searchStore.query);
-
-// 延遲更新 store
-const updateSearch = debounce((value: string) => {
-  searchStore.query = value;
-}, 500);
-
-// 監聽本地值變化
-watch(localQuery, (value) => {
-  updateSearch(value);
-});
-
-// 立即應用搜索
+// 立即應用搜索（使用手動flush立即觸發更新）
 const applySearch = () => {
-  searchStore.query = localQuery.value;
+  searchStore.flush(); // 手動觸發查詢更新，不等待debounce
 };
 
-// 清除搜索
+// 清除搜索（使用手動flush立即觸發更新）
 const clearMessage = () => {
-  localQuery.value = "";
-  searchStore.query = "";
+  searchStore.queryBuffer = "";
+  searchStore.flush(); // 手動觸發查詢更新，不等待debounce
 };
 </script>

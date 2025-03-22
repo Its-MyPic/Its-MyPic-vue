@@ -43,6 +43,7 @@ const localMygoFilter = ref<number[]>([]);
 const localAvemujicaFilter = ref<number[]>([]);
 
 // 監聽對話框開啟狀態，同步本地狀態
+// 從實際計算狀態同步，而非從buffer同步
 watch(enable, (newValue) => {
   if (newValue) {
     localMygoFilter.value = [...filterStore.mygoEpisodes];
@@ -57,9 +58,12 @@ const cleanFilter = () => {
 };
 
 const applyFilter = () => {
-  filterStore.mygoEpisodes = [...localMygoFilter.value];
-  filterStore.avemujicaEpisodes = [...localAvemujicaFilter.value];
-  filterStore.characterId = 0;
+  // 更新buffer狀態
+  filterStore.mygoEpisodesBuffer = [...localMygoFilter.value];
+  filterStore.avemujicaEpisodesBuffer = [...localAvemujicaFilter.value];
+  filterStore.characterIdBuffer = 0;
+  // 手動觸發更新
+  filterStore.flush();
   enable.value = false;
 };
 </script>

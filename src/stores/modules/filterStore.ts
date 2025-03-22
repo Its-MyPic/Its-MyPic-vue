@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import { debounce } from "@/utils/debounce";
+import { ref, computed } from "vue";
 import type { FilterOptions } from "@/types/card";
 import { Season, EPISODES } from "@/constants/filters";
 
@@ -26,8 +25,15 @@ export const useFilterStore = defineStore("filter", () => {
   };
 
   const initialEpisodes = parseInitialEpisodes();
-  const mygoEpisodes = ref<number[]>(initialEpisodes.mygo);
-  const avemujicaEpisodes = ref<number[]>(initialEpisodes.avemujica);
+  
+  // Buffer狀態 - 直接接收用戶操作
+  const mygoEpisodesBuffer = ref<number[]>([...initialEpisodes.mygo]);
+  const avemujicaEpisodesBuffer = ref<number[]>([...initialEpisodes.avemujica]);
+  const characterIdBuffer = ref<number>(0);
+  
+  // 計算狀態 - 經過flush後更新，用於實際查詢
+  const mygoEpisodes = ref<number[]>([...initialEpisodes.mygo]);
+  const avemujicaEpisodes = ref<number[]>([...initialEpisodes.avemujica]);
   const characterId = ref<number>(0);
 
   // Convert array-based episode lists to Sets for O(1) lookup
@@ -59,16 +65,27 @@ export const useFilterStore = defineStore("filter", () => {
     window.history.pushState({}, "", url.toString());
   };
 
-  // Watch for changes and update URL
-  watch(
-    [mygoEpisodes, avemujicaEpisodes],
-    debounce(() => updateFilterParams(), 300)
-  );
+  // 手動觸發更新函數
+  const flush = () => {
+    mygoEpisodes.value = [...mygoEpisodesBuffer.value];
+    avemujicaEpisodes.value = [...avemujicaEpisodesBuffer.value];
+    characterId.value = characterIdBuffer.value;
+    updateFilterParams();
+  };
 
   return {
+    // Buffer狀態 - 用於UI交互
+    mygoEpisodesBuffer,
+    avemujicaEpisodesBuffer,
+    characterIdBuffer,
+    
+    // 計算狀態 - 用於查詢和過濾
     mygoEpisodes,
     avemujicaEpisodes,
     characterId,
     activeFilters,
+    
+    // 手動觸發更新
+    flush
   };
 });
