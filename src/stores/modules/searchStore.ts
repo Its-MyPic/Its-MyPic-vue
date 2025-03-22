@@ -4,7 +4,7 @@ import { debounce } from "@/utils/debounce";
 import { normalizeText } from "@/utils/textNormalization";
 
 export const useSearchStore = defineStore("search", () => {
-  const query = ref("");
+  const query = ref(new URLSearchParams(window.location.search).get("q") || "");
 
   // Convert and normalize query text
   const normalizedQuery = computed(() => {
@@ -23,15 +23,6 @@ export const useSearchStore = defineStore("search", () => {
     window.history.pushState({}, "", url.toString());
   };
 
-  // Initialize from URL
-  const initFromUrl = () => {
-    const params = new URLSearchParams(window.location.search);
-    const q = params.get("q");
-    if (q) {
-      query.value = q;
-    }
-  };
-
   // Watch for changes and update URL
   watch(
     query,
@@ -40,7 +31,6 @@ export const useSearchStore = defineStore("search", () => {
 
   return {
     query,
-    normalizedQuery,
-    initFromUrl
+    normalizedQuery
   };
 });

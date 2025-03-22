@@ -8,9 +8,9 @@
       <br />
       <br />
       <span class="align-center">集數篩選</span>
-      <MultiSelect :items="EPISODES[Season.MYGO]" v-model="mygoFilter" label="MyGO"
+      <MultiSelect :items="EPISODES[Season.MYGO]" v-model="localMygoFilter" label="MyGO"
         style="min-width:250px" />
-      <MultiSelect :items="EPISODES[Season.AVE_MUJICA]" v-model="aveMujicaFilter" label="Ave Mujica"
+      <MultiSelect :items="EPISODES[Season.AVE_MUJICA]" v-model="localAvemujicaFilter" label="Ave Mujica"
         style="min-width:250px" />
 
       <!-- <span class="align-center">角色篩選</span>
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, watch } from "vue";
 import MultiSelect from "./MultiSelect.vue";
 import { useFilterStore } from "@/stores";
 import { mdiTune } from "@mdi/js";
@@ -36,27 +36,30 @@ const filterStore = useFilterStore();
 
 const characters = ['高松燈', '千早愛音', '要樂奈', '長崎爽世', '椎名立希', '三角初華', '豐川祥子', '八幡海鈴', '祐天寺若麥', '若葉睦'];
 const enable = ref(false);
-
 const characterFilter = ref<string[]>([]);
-const mygoFilter = ref<number[]>([]);
-const aveMujicaFilter = ref<number[]>([]);
+
+// 本地狀態
+const localMygoFilter = ref<number[]>([]);
+const localAvemujicaFilter = ref<number[]>([]);
+
+// 監聽對話框開啟狀態，同步本地狀態
+watch(enable, (newValue) => {
+  if (newValue) {
+    localMygoFilter.value = [...filterStore.mygoEpisodes];
+    localAvemujicaFilter.value = [...filterStore.avemujicaEpisodes];
+  }
+});
 
 const cleanFilter = () => {
-  mygoFilter.value = [];
-  aveMujicaFilter.value = [];
+  localMygoFilter.value = [];
+  localAvemujicaFilter.value = [];
   characterFilter.value = [];
 };
 
 const applyFilter = () => {
-  filterStore.mygoEpisodes = mygoFilter.value;
-  filterStore.avemujicaEpisodes = aveMujicaFilter.value;
+  filterStore.mygoEpisodes = [...localMygoFilter.value];
+  filterStore.avemujicaEpisodes = [...localAvemujicaFilter.value];
   filterStore.characterId = 0;
   enable.value = false;
 };
-
-onMounted(() => {
-  // Initialize from filterStore
-  mygoFilter.value = filterStore.mygoEpisodes;
-  aveMujicaFilter.value = filterStore.avemujicaEpisodes;
-});
 </script>

@@ -5,8 +5,29 @@ import type { FilterOptions } from "@/types/card";
 import { Season, EPISODES } from "@/constants/filters";
 
 export const useFilterStore = defineStore("filter", () => {
-  const mygoEpisodes = ref<number[]>([]);
-  const avemujicaEpisodes = ref<number[]>([]);
+  // Parse initial episodes from URL
+  const parseInitialEpisodes = () => {
+    const epParam = new URLSearchParams(window.location.search).get("ep");
+    if (!epParam) return { mygo: [], avemujica: [] };
+
+    const ep = parseInt(epParam);
+    
+    // Extract MyGO episodes (bits 0-12)
+    const mygoEps = EPISODES[Season.MYGO].filter(i => 
+      (ep & (1 << (i - 1))) !== 0
+    );
+    
+    // Extract Ave Mujica episodes (bits 13-20)
+    const avemujicaEps = EPISODES[Season.AVE_MUJICA].filter(i => 
+      (ep & (1 << (i + 12))) !== 0
+    );
+
+    return { mygo: mygoEps, avemujica: avemujicaEps };
+  };
+
+  const initialEpisodes = parseInitialEpisodes();
+  const mygoEpisodes = ref<number[]>(initialEpisodes.mygo);
+  const avemujicaEpisodes = ref<number[]>(initialEpisodes.avemujica);
   const characterId = ref<number>(0);
 
   // Convert array-based episode lists to Sets for O(1) lookup
@@ -38,29 +59,6 @@ export const useFilterStore = defineStore("filter", () => {
     window.history.pushState({}, "", url.toString());
   };
 
-  // Initialize from URL
-  const initFromUrl = () => {
-    const params = new URLSearchParams(window.location.search);
-    const epParam = params.get("ep");
-
-    if (epParam) {
-      const ep = parseInt(epParam);
-      
-      // Extract MyGO episodes (bits 0-12)
-      const mygoEps = EPISODES[Season.MYGO].filter(i => 
-        (ep & (1 << (i - 1))) !== 0
-      );
-      
-      // Extract Ave Mujica episodes (bits 13-20)
-      const avemujicaEps = EPISODES[Season.AVE_MUJICA].filter(i => 
-        (ep & (1 << (i + 12))) !== 0
-      );
-
-      mygoEpisodes.value = mygoEps;
-      avemujicaEpisodes.value = avemujicaEps;
-    }
-  };
-
   // Watch for changes and update URL
   watch(
     [mygoEpisodes, avemujicaEpisodes],
@@ -72,6 +70,5 @@ export const useFilterStore = defineStore("filter", () => {
     avemujicaEpisodes,
     characterId,
     activeFilters,
-    initFromUrl
   };
 });

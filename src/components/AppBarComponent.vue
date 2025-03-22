@@ -6,9 +6,8 @@
       </div>
       <v-row dense class="mt-2">
         <v-col class="text-center">
-          <v-text-field v-model="searchQuery" single-line hide-details clearable label="搜尋" variant="outlined"
-            class="short-search" @keyup.enter="emitSearchQuery" @click:clear="clearMessage"
-            @input="debounceEmitSearchQuery" autofocus>
+          <v-text-field v-model="localQuery" single-line hide-details clearable label="搜尋" variant="outlined"
+            class="short-search" @keyup.enter="applySearch" @click:clear="clearMessage" autofocus>
             <template v-slot:append>
               <v-icon @click="uiStore.toggleReverse"
                 :icon="uiStore.isReversed ? mdiSortVariant : mdiSortReverseVariant">
@@ -25,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref, watch } from "vue";
 import { mdiSortReverseVariant, mdiSortVariant } from "@mdi/js";
 import { useUIStore, useSearchStore } from "@/stores";
 import { debounce } from "@/utils/debounce";
@@ -33,27 +32,27 @@ import { debounce } from "@/utils/debounce";
 const uiStore = useUIStore();
 const searchStore = useSearchStore();
 
-const searchQuery = ref("");
+// 本地狀態
+const localQuery = ref(searchStore.query);
 
-const debounceEmitSearchQuery = debounce(() => {
-  searchStore.query = searchQuery.value;
+// 延遲更新 store
+const updateSearch = debounce((value: string) => {
+  searchStore.query = value;
 }, 500);
 
-const emitSearchQuery = () => {
-  searchStore.query = searchQuery.value;
+// 監聽本地值變化
+watch(localQuery, (value) => {
+  updateSearch(value);
+});
+
+// 立即應用搜索
+const applySearch = () => {
+  searchStore.query = localQuery.value;
 };
 
+// 清除搜索
 const clearMessage = () => {
-  searchQuery.value = "";
+  localQuery.value = "";
   searchStore.query = "";
 };
-
-onMounted(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const q = urlParams.get('q');
-  if (q) {
-    searchQuery.value = q;
-    searchStore.query = q;
-  }
-});
 </script>
