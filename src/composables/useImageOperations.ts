@@ -21,72 +21,86 @@ export function useImageOperations(config: ImageOperationsConfig) {
   });
 
   // Utility function to load an image
-  const loadImage = async (url: string): Promise<HTMLImageElement> => {
+  const loadImage = (url: string): HTMLImageElement => {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.src = url;
+    return img;
+  };
+
+  // Load image with onload event
+  const loadImageWithEvents = (url: string): Promise<HTMLImageElement> => {
     return new Promise((resolve, reject) => {
+      const img = loadImage(url);
       img.onload = () => resolve(img);
       img.onerror = reject;
     });
   };
 
   // Download image
-  const downloadImage = async (imageUrl: string, filename: string) => {
+  const downloadImage = (imageUrl: string, filename: string): void => {
     if (state.isDownloading) return;
     
     errorReporting.trackAction(`download_image_start:${filename}`);
     state.isDownloading = true;
     state.operationStatus = '下載中...';
 
-    try {
-      const img = await loadImage(imageUrl);
-      const blobUrl = await canvas.createPngBlob(img);
+    const img = loadImage(imageUrl);
+    img.onload = () => {
+      const dataUrl = canvas.createPngBlob(img);
       
-      const response = await fetch(blobUrl);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-
       const link = document.createElement('a');
-      link.href = url;
+      link.href = dataUrl;
       link.download = `${filename}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      URL.revokeObjectURL(url);
       
       state.operationStatus = '下載完成';
       errorReporting.trackAction(`download_image_success:${filename}`);
-    } catch (error) {
+      state.isDownloading = false;
+    };
+    img.onerror = () => {
       errorReporting.trackAction(`download_image_error:${filename}`);
-      await errorReporting.reportError(error as Error, undefined, {
+      errorReporting.reportError(new Error('Failed to load image'), undefined, {
         imageUrl,
         filename,
         operation: 'download'
       });
       state.operationStatus = '下載失敗';
-    } finally {
       state.isDownloading = false;
-    }
+    };
   };
 
   // Copy image
-  const copyImage = async (imageUrl: string) => {
+  const copyImage = async (imageUrl: string): Promise<void> => {
     if (state.isCopying) return;
     
     errorReporting.trackAction(`copy_image_start`);
     state.isCopying = true;
     state.operationStatus = '';
 
+    const blobPromise = new Promise<Blob>((resolve, reject) => {
+      loadImageWithEvents(imageUrl)
+        .then(img => {
+          const dataUrl = canvas.createPngBlob(img);
+          const arr = dataUrl.split(',');
+          const bstr = atob(arr[1]);
+          const n = bstr.length;
+          const u8arr = new Uint8Array(n);
+          
+          for (let i = 0; i < n; i++) {
+            u8arr[i] = bstr.charCodeAt(i);
+          }
+          
+          resolve(new Blob([u8arr], { type: 'image/png' }));
+        })
+        .catch(reject);
+    });
+
     try {
-      const img = await loadImage(imageUrl);
-      const blobUrl = await canvas.createPngBlob(img);
-      
-      const response = await fetch(blobUrl);
-      const blob = await response.blob();
-      
       const item = new ClipboardItem({
-        'image/png': blob
+        'image/png': blobPromise
       });
       
       await navigator.clipboard.write([item]);
@@ -94,7 +108,7 @@ export function useImageOperations(config: ImageOperationsConfig) {
       errorReporting.trackAction(`copy_image_success`);
     } catch (error) {
       errorReporting.trackAction(`copy_image_error`);
-      await errorReporting.reportError(error as Error, undefined, {
+      errorReporting.reportError(error as Error, undefined, {
         imageUrl,
         operation: 'copyImage',
         clipboardSupported: Boolean(navigator.clipboard)
@@ -107,7 +121,7 @@ export function useImageOperations(config: ImageOperationsConfig) {
   };
 
   // Copy URL
-  const copyUrl = async (url: string) => {
+  const copyUrl = async (url: string): Promise<void> => {
     if (state.isCopying) return;
     
     errorReporting.trackAction(`copy_url_start`);
@@ -120,7 +134,7 @@ export function useImageOperations(config: ImageOperationsConfig) {
       errorReporting.trackAction(`copy_url_success`);
     } catch (error) {
       errorReporting.trackAction(`copy_url_error`);
-      await errorReporting.reportError(error as Error, undefined, {
+      errorReporting.reportError(error as Error, undefined, {
         url,
         operation: 'copyUrl',
         clipboardSupported: Boolean(navigator.clipboard)

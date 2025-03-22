@@ -116,7 +116,7 @@ const handleLongPress = async () => {
   }
 };
 
-const handleGifCreate = async () => {
+const handleGifCreate = () => {
   emit('gif-create');
 };
 

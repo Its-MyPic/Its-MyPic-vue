@@ -5,7 +5,7 @@ interface CanvasContext {
 
 export function useCanvas(): {
   getContext: () => CanvasContext;
-  createPngBlob: (image: HTMLImageElement) => Promise<string>;
+  createPngBlob: (image: HTMLImageElement) => string;
   cleanup: () => void;
 } {
   let context: CanvasContext | null = null;
@@ -27,7 +27,7 @@ export function useCanvas(): {
     return context;
   };
 
-  const createPngBlob = async (image: HTMLImageElement): Promise<string> => {
+  const createPngBlob = (image: HTMLImageElement): string => {
     const { canvas, ctx } = getContext();
     canvas.width = image.width;
     canvas.height = image.height;
