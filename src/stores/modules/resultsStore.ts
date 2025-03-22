@@ -27,6 +27,7 @@ export const useResultsStore = defineStore("results", () => {
     const cacheKey = JSON.stringify({
       mygo: Array.from(filters.mygo),
       avemujica: Array.from(filters.avemujica),
+      // FUTURE-FEATURE: 當實現角色篩選功能時，需要在這裡加入 character 屬性
     });
 
     let filtered: Card[];
@@ -41,6 +42,9 @@ export const useResultsStore = defineStore("results", () => {
           return filters.avemujica.has(card.episode);
         }
         return filters.mygo.size === 0 && filters.avemujica.size === 0;
+        
+        // FUTURE-FEATURE: 當實現角色篩選功能時，需要在此加入角色篩選邏輯
+        // 例如: && (filters.character === 0 || card.character === filters.character)
       });
       filterCache.set(cacheKey, filtered);
     }

@@ -55,17 +55,13 @@ const pageProvider = computed(() => {
     });
   }
   const filtered = cards.value;
-  const update = uiStore.isReversed;
   return (page: number, pageSize: number) => {
     const slice = filtered.slice(page * pageSize, (page + 1) * pageSize);
     return Promise.resolve(slice);
   };
 });
 
-const getKey = (item: any) => {
-  var temp:Card = item.value;
-  return temp?.segmentId;
-};
+const getKey = (item: any) => item.value?.segmentId;
 
 onMounted(() => {
   calcRows();

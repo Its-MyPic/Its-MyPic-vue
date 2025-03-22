@@ -13,7 +13,8 @@
       <MultiSelect :items="EPISODES[Season.AVE_MUJICA]" v-model="localAvemujicaFilter" label="Ave Mujica"
         style="min-width:250px" />
 
-      <!-- <span class="align-center">角色篩選</span>
+      <!-- FUTURE-FEATURE: 角色篩選功能相關UI
+      <span class="align-center">角色篩選</span>
       <MultiSelect :items="characters" v-model="characterFilter" label="角色篩選" style="min-width:250px" />
 
       <v-checkbox class="text-center" label="角色嚴格篩選" /> -->
@@ -34,6 +35,7 @@ import { EPISODES, Season } from "@/constants/filters";
 
 const filterStore = useFilterStore();
 
+// FUTURE-FEATURE: 角色篩選功能的預留資料和變數
 const characters = ['高松燈', '千早愛音', '要樂奈', '長崎爽世', '椎名立希', '三角初華', '豐川祥子', '八幡海鈴', '祐天寺若麥', '若葉睦'];
 const enable = ref(false);
 const characterFilter = ref<string[]>([]);
@@ -54,14 +56,14 @@ watch(enable, (newValue) => {
 const cleanFilter = () => {
   localMygoFilter.value = [];
   localAvemujicaFilter.value = [];
-  characterFilter.value = [];
+  characterFilter.value = []; // FUTURE-FEATURE: 角色篩選相關代碼
 };
 
 const applyFilter = () => {
   // 更新buffer狀態
   filterStore.mygoEpisodesBuffer = [...localMygoFilter.value];
   filterStore.avemujicaEpisodesBuffer = [...localAvemujicaFilter.value];
-  filterStore.characterIdBuffer = 0;
+  filterStore.characterIdBuffer = 0; // FUTURE-FEATURE: 角色篩選相關代碼
   // 手動觸發更新
   filterStore.flush();
   enable.value = false;

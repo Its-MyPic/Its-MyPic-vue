@@ -8,11 +8,9 @@
 
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import { useDataStore, useFilterStore, useSearchStore } from "@/stores";
+import { useDataStore } from "@/stores";
 
 const dataStore = useDataStore();
-const filterStore = useFilterStore();
-const searchStore = useSearchStore();
 
 onMounted(async () => {
   // Fetch initial data

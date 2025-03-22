@@ -29,18 +29,18 @@ export const useFilterStore = defineStore("filter", () => {
   // Buffer狀態 - 直接接收用戶操作
   const mygoEpisodesBuffer = ref<number[]>([...initialEpisodes.mygo]);
   const avemujicaEpisodesBuffer = ref<number[]>([...initialEpisodes.avemujica]);
-  const characterIdBuffer = ref<number>(0);
+  const characterIdBuffer = ref<number>(0); // FUTURE-FEATURE: 角色篩選相關代碼
   
   // 計算狀態 - 經過flush後更新，用於實際查詢
   const mygoEpisodes = ref<number[]>([...initialEpisodes.mygo]);
   const avemujicaEpisodes = ref<number[]>([...initialEpisodes.avemujica]);
-  const characterId = ref<number>(0);
+  const characterId = ref<number>(0); // FUTURE-FEATURE: 角色篩選相關代碼
 
   // Convert array-based episode lists to Sets for O(1) lookup
   const activeFilters = computed<FilterOptions>(() => ({
     mygo: new Set(mygoEpisodes.value),
     avemujica: new Set(avemujicaEpisodes.value),
-    character: characterId.value
+    character: characterId.value // FUTURE-FEATURE: 角色篩選相關代碼
   }));
 
   // URL sync

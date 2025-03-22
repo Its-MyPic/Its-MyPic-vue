@@ -98,7 +98,6 @@ const copyModeBind = computed({
   } 
 });
 
-// const copyURLMode = defineModel('copyUrlMode', { type: Boolean, required: true });
 const theme = useTheme();
 
 
@@ -115,12 +114,8 @@ const isMobile = () => {
   return typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('mobile');
 };
 
-const hasPermission = () => {
-  return true;
-};
-
 const checkCanCopyImage = () => {
-  return hasPermission() && !(isFirefox() && isMobile());
+  return !(isFirefox() && isMobile());
 };
 
 onMounted(() => {
@@ -133,7 +128,6 @@ onMounted(() => {
   } else {
     uiStore.copyMode = false;
   }
-  // console.log(copyURLMode.copyMode);
 
   if (localStorage.getItem('darkTheme')) {
     theme.global.name.value = localStorage.getItem('darkTheme') ?? 'dark';

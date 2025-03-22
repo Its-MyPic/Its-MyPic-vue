@@ -26,7 +26,7 @@ export interface Card extends Omit<data.Info, 'season' | 'frameStart' | 'framePr
 export interface FilterOptions {
   mygo: Set<number>;
   avemujica: Set<number>;
-  character?: Nullable<number>;
+  character?: Nullable<number>; // FUTURE-FEATURE: 角色篩選相關屬性
 }
 
 /**
