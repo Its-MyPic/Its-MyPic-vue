@@ -13,7 +13,7 @@
         </v-col>
       </v-row>
       <v-card-actions>
-        <action-buttons 
+        <action-buttons
           :card-data="cardData"
           :webhook-url="webhookUrl"
           :image-url="imageUrl"

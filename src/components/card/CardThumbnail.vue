@@ -1,15 +1,13 @@
 <template>
-  <div class="thumbnail-container">
-    <v-card class="card size" color="surface-variant" rounded="lg" variant="tonal" @click="$emit('click')">
-      <div class="image-container size">
-        <img :src="imgUrl" class="size" :alt="text" />
-        <div class="timestamp-overlay">
-          {{ episodeText }} {{ timestamp }}
-        </div>
+  <div>
+    <v-card class="card-size" color="surface-variant" rounded="lg" variant="tonal" @click="$emit('click')">
+      <img :src="imgUrl" class="img-size" :alt="text" />
+      <div class="timestamp-overlay">
+        {{ episodeText }} {{ timestamp }}
       </div>
-      <v-card-text class="card-text text-center justify-center">
+      <div class="card-text text-center justify-center">
         {{ text }}
-      </v-card-text>
+      </div>
     </v-card>
   </div>
 </template>
@@ -43,17 +41,17 @@ const frameStart = props.cardData.frame.start;
 const framePrefer = props.cardData.frame.prefer;
 
 // Generate episode text (e.g., "MyGO 第1話")
-const episodeText = computed(() => 
+const episodeText = computed(() =>
   generateEpisodeText(season, episode)
 );
 
 // Generate timestamp from frame number
-const timestamp = computed(() => 
+const timestamp = computed(() =>
   calculateTimestamp(frameStart)
 );
 
 // Generate image URL
-const imgUrl = computed(() => 
+const imgUrl = computed(() =>
   generateImageUrl(props.baseImageUrl, season, episode, framePrefer)
 );
 </script>
@@ -66,24 +64,23 @@ const imgUrl = computed(() =>
   background: rgba(0, 0, 0, 0.5);
   color: white;
   padding: 5px 5px;
+  font-size: 1rem;
 }
 
 .card-text {
-  display: flex;
-  flex-direction: column;
-  height: 80px;
-  max-width: 280px;
-  flex: 1;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 4px;
 }
 
-.size {
-  width: 280px;
-  height: 157px;
+.img-size {
+  width: 100%;
+  aspect-ratio: 16/9;
 }
 
-.card {
-  left: 50%;
-  transform: translate(-50%, 0);
-  height: 237px;
+.card-size {
+  aspect-ratio: 310/220;
 }
 </style>

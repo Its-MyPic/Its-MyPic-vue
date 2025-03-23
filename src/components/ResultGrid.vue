@@ -2,15 +2,18 @@
   <Suspense>
     <template #default>
       <Grid :length="cards.length ? cards.length : 1" :pageSize="cardsPerRow"
-        :pageProvider="pageProvider" :get-key="getKey" :page-provider-debounce-time="100" class="grid ma-5">
+        :pageProvider="pageProvider" :get-key="getKey" class="grid ma-5">
+        <!-- :page-provider-debounce-time="1000" -->
+        <template v-slot:probe>
+          <div class="card-size">Probe</div>
+        </template>
         <template v-slot:placeholder="{ index, style }">
-          <div class="item" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
+          <div class="card-size" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
         </template>
         <template v-slot:default="{ item, style, index }">
-          <CardComponent 
-            :styles="style" 
-            :card-data="item" 
-            :video-config="settings.videoLink"
+          <CardComponent
+            :styles="style"
+            :card-data="item"
             :webhook-url="webhookUrl"
           />
         </template>
@@ -26,24 +29,24 @@
 <script setup lang="ts">
 import CardComponent from "./card/index.vue";
 import Grid from "vue-virtual-scroll-grid";
-import { useResultsStore, useUIStore } from '@/stores';
+import { useResultsStore } from '@/stores';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { storeToRefs } from "pinia";
-import type { Card } from '@/types/card';
 import settings from '@/assets/setting.json';
 
 const resultsStore = useResultsStore();
-const uiStore = useUIStore();
 
 const { filteredCards: cards } = storeToRefs(resultsStore);
 
-const webhookUrl = computed(() => 
+const webhookUrl = computed(() =>
   `https://discord.com/api/webhooks/${atob(settings.webhook)}`
 );
 
 let cardsPerRow = ref(24);
 const calcRows = () => {
-  cardsPerRow.value = (1 + Math.floor((window.innerWidth - 320) / 310)) * 8;
+  var width = Math.max(0, window.innerWidth - 290);
+  var cnt = Math.floor((width) / 270) + 1;
+  cardsPerRow.value = cnt * 8;
 };
 
 const pageProvider = computed(() => {
@@ -77,9 +80,12 @@ onUnmounted(() => {
 .grid {
   display: grid;
   grid-gap: 20px;
-  grid-template-rows: 237px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-rows: 4;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   align-items: center;
   justify-content: center;
+}
+.card-size {
+  aspect-ratio: 320/220;
 }
 </style>
