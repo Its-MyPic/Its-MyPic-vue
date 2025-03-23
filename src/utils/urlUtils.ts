@@ -1,4 +1,5 @@
 import { Season, SEASON_NAMES, type VideoLinkConfig } from "@/constants/filters";
+import settings from '@/assets/setting.json';
 
 export function generateImageUrl(
   baseUrl: string,
@@ -10,7 +11,6 @@ export function generateImageUrl(
 }
 
 export function generateVideoUrl(
-  videoConfig: VideoLinkConfig,
   season: Season,
   episode: number,
   timestamp: number
@@ -18,7 +18,7 @@ export function generateVideoUrl(
   const sessionName = season === Season.AVE_MUJICA 
     ? SEASON_NAMES[Season.AVE_MUJICA] 
     : SEASON_NAMES[Season.MYGO];
-    
+    var videoConfig: VideoLinkConfig = settings.videoLink;
   const episodeKey = String(episode) as keyof typeof videoConfig[typeof sessionName];
   const videoLink = videoConfig[sessionName][episodeKey];
 

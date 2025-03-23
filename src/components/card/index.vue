@@ -11,8 +11,6 @@
       :card-data="cardData"
       :webhook-url="webhookUrl"
       :image-url="imageUrl"
-      :video-config="videoConfig"
-      @report="handleReport"
       @gif-create="handleGifCreate"
       :is-gif-creating="gifDialogRef?.isGeneratingGif"
     >
@@ -37,7 +35,6 @@ import { ref, computed } from 'vue';
 import { generateImageUrl } from '@/utils/urlUtils';
 import type { PropType } from 'vue';
 import type { Card } from '@/types/card';
-import type { VideoLinkConfig } from '@/constants/filters';
 import CardThumbnail from './CardThumbnail.vue';
 import CardDialog from './CardDialog.vue';
 import ReportDialog from '../ReportDialog.vue';
@@ -50,10 +47,6 @@ const props = defineProps({
   },
   cardData: {
     type: Object as PropType<Card>,
-    required: true,
-  },
-  videoConfig: {
-    type: Object as PropType<VideoLinkConfig>,
     required: true,
   },
   webhookUrl: {
@@ -74,10 +67,6 @@ const imageUrl = computed(() => generateImageUrl(
   props.cardData.episode,
   props.cardData.frame.prefer
 ));
-
-const handleReport = () => {
-  // Report dialog is handled via slot
-};
 
 const handleGifCreate = async () => {
   if (!gifDialogRef.value) return;

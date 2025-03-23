@@ -17,9 +17,7 @@
           :card-data="cardData"
           :webhook-url="webhookUrl"
           :image-url="imageUrl"
-          :video-config="videoConfig"
           :is-gif-creating="isGifCreating"
-          @report="$emit('report')"
           @gif-create="$emit('gif-create')"
         >
           <template #report-dialog>
@@ -37,7 +35,6 @@ import { generateEpisodeText } from '@/utils/urlUtils';
 import { calculateTimestamp } from '@/utils/timeUtils';
 import type { PropType } from 'vue';
 import type { Card } from '@/types/card';
-import type { VideoLinkConfig } from '@/constants/filters';
 import ActionButtons from './ActionButtons.vue';
 
 const props = defineProps({
@@ -57,10 +54,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  videoConfig: {
-    type: Object as PropType<VideoLinkConfig>,
-    required: true,
-  },
   isGifCreating: {
     type: Boolean,
     default: false,
@@ -69,7 +62,6 @@ const props = defineProps({
 
 defineEmits<{
   (e: 'update:show', value: boolean): void;
-  (e: 'report'): void;
   (e: 'gif-create'): void;
 }>();
 

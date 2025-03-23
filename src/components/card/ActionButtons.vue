@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-btn @click="$emit('report')">
+    <v-btn>
       回報
       <slot name="report-dialog" />
     </v-btn>
@@ -27,7 +27,6 @@ import { generateVideoUrl } from '@/utils/urlUtils';
 import { calculateVideoTimestamp } from '@/utils/timeUtils';
 import { MYGO_FRAME_OFFSETS, Season } from '@/constants/filters';
 import type { PropType } from 'vue';
-import type { VideoLinkConfig } from '@/constants/filters';
 import type { Card } from '@/types/card';
 
 const props = defineProps({
@@ -43,10 +42,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  videoConfig: {
-    type: Object as PropType<VideoLinkConfig>,
-    required: true,
-  },
   isGifCreating: {
     type: Boolean,
     default: false,
@@ -54,7 +49,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
-  (e: 'report'): void;
   (e: 'gif-create'): void;
 }>();
 
@@ -80,7 +74,6 @@ const videoUrl = computed(() => {
   );
 
   return generateVideoUrl(
-    props.videoConfig,
     props.cardData.season,
     props.cardData.episode,
     timestamp
