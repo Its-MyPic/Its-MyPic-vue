@@ -78,7 +78,7 @@ class VanillaLongPress {
 }
 
 function mounted(el: HTMLElement, binding: { value: () => void }) {
-  new VanillaLongPress(el, binding.value, 150);
+  new VanillaLongPress(el, binding.value, 250);
 }
 function beforeUnmount(el: Input) {
   el._longPressDestroy();
