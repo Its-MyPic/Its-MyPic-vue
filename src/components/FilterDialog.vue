@@ -8,9 +8,9 @@
       <br />
       <br />
       <span class="align-center">集數篩選</span>
-      <MultiSelect :items="EPISODES[Season.MYGO]" v-model="localMygoFilter" label="MyGO"
+      <MultiSelect :items="EPISODES" v-model="localMygoFilter" label="MyGO"
         style="min-width:250px" />
-      <MultiSelect :items="EPISODES[Season.AVE_MUJICA]" v-model="localAvemujicaFilter" label="Ave Mujica"
+      <MultiSelect :items="EPISODES" v-model="localAvemujicaFilter" label="Ave Mujica"
         style="min-width:250px" />
 
       <!-- FUTURE-FEATURE: 角色篩選功能相關UI
@@ -31,7 +31,7 @@ import { ref, watch } from "vue";
 import MultiSelect from "./MultiSelect.vue";
 import { useFilterStore } from "@/stores";
 import { mdiTune } from "@mdi/js";
-import { EPISODES, Season } from "@/constants/filters";
+import { EPISODES } from "@/constants/filters";
 
 const filterStore = useFilterStore();
 

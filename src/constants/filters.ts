@@ -13,11 +13,7 @@ export const SEASON_NAMES = {
   [Season.AVE_MUJICA]: 'Ave Mujica'
 } as const;
 
-export const EPISODES = {
-  [Season.MYGO]: Array.from({ length: 13 }, (_, i) => i + 1),
-  [Season.AVE_MUJICA]: Array.from({ length: 12 }, (_, i) => i + 1)
-} as const;
-
+export const EPISODES = Array.from({ length: 13 }, (_, i) => i + 1)
 // For timestamp calculation
 export const FRAME_RATE = 23.976;
 
