@@ -76,7 +76,7 @@ async function uploadToImgur(): Promise<string> {
     body: formData
   });
 
-  if (response.status === 413) {
+  if (response.status === 412) {
     throw new Error('GIF檔案過大，請自行下載後上傳至其他圖床');
   }
 
@@ -91,22 +91,16 @@ async function generateGifLink() {
 
   const item = new ClipboardItem({
     'text/plain': (async () => {
-      try {
-        if (cachedImgurUrl.value) {
-          return new Blob([cachedImgurUrl.value], { type: 'text/plain' });
-        }
-
-        snackText.value = '正在上傳GIF...';
-        copyResult.value = true;
-
-        const imgurUrl = await uploadToImgur();
-        cachedImgurUrl.value = imgurUrl;
-        return new Blob([imgurUrl], { type: 'text/plain' });
-      } catch (error) {
-        snackText.value = error instanceof Error ? error.message : 'GIF 上傳失敗';
-        reportErrorToDiscord(error as Error);
-        throw error;
+      if (cachedImgurUrl.value) {
+        return new Blob([cachedImgurUrl.value], { type: 'text/plain' });
       }
+
+      snackText.value = '正在上傳GIF...';
+      copyResult.value = true;
+
+      const imgurUrl = await uploadToImgur();
+      cachedImgurUrl.value = imgurUrl;
+      return new Blob([imgurUrl], { type: 'text/plain' });
     })(),
   });
 
