@@ -10,9 +10,19 @@ import LongPress from "./plugins/long-press";
 import vuetify from "./plugins/vuetify";
 import { routes } from "vue-router/auto-routes";
 import { createPinia } from "pinia";
+import { useDataStore } from "./stores";
 
-export const createApp = ViteSSG(App, { routes: routes }, (ctx) => {
-  ctx.app.use(vuetify);
-  ctx.app.use(createPinia());
-  ctx.app.directive("longPress", LongPress);
+export const createApp = ViteSSG(App, { routes: routes }, ({ app, router, initialState }) => {
+  app.use(vuetify);
+  app.directive("longPress", LongPress);
+  const pinia = createPinia();
+  app.use(pinia);
+
+  if (import.meta.env.SSR)
+    initialState.pinia = pinia.state.value
+  else
+    pinia.state.value = initialState.pinia || {}
+
+  const dataStore = useDataStore(pinia);
+  dataStore.fetchCards();
 });
