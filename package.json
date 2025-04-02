@@ -28,7 +28,7 @@
     "@eslint/js": "9.23.0",
     "@mdi/js": "^7.4.47",
     "@tsconfig/node22": "^22.0.1",
-    "@types/node": "22.13.16",
+    "@types/node": "22.13.17",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/eslint-config-typescript": "^14.5.0",
     "@vue/tsconfig": "^0.7.0",
@@ -47,7 +47,7 @@
     "vite": "^6.2.4",
     "vite-plugin-sitemap": "^0.7.1",
     "vite-plugin-vuetify": "^2.1.0",
-    "vite-ssg": "^25.2.0",
+    "vite-ssg": "26.1.1",
     "vue-router": "^4.5.0",
     "vue-tsc": "^2.2.8"
   }
