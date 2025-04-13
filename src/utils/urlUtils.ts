@@ -5,9 +5,11 @@ export function generateImageUrl(
   baseUrl: string,
   season: number,
   episode: number,
-  framePrefer: number
+  framePrefer: number,
+  old: boolean = false
 ): string {
-  return `${baseUrl}${season}/${episode}/${framePrefer}.webp`;
+  const suffix = old ? '?old' : '';
+  return `${baseUrl}${season}/${episode}/${framePrefer}.webp${suffix}`;
 }
 
 export function generateVideoUrl(
