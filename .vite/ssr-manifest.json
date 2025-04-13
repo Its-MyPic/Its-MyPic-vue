@@ -21,7 +21,7 @@
     "/assets/@protobufjs-f4nnaicZ.js"
   ],
   "\u0000plugin-vue:export-helper": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "\u0000vite/modulepreload-polyfill.js": [],
@@ -80,19 +80,19 @@
     "/assets/@protobufjs-f4nnaicZ.js"
   ],
   "node_modules/@unhead/vue/dist/client.mjs": [
-    "/assets/@unhead-DQR5zzVu.js"
+    "/assets/@unhead-DUdWRP3r.js"
   ],
   "node_modules/@unhead/vue/dist/server.mjs": [
-    "/assets/@unhead-DQR5zzVu.js"
+    "/assets/@unhead-DUdWRP3r.js"
   ],
   "node_modules/@unhead/vue/dist/shared/vue.BYLJNEcq.mjs": [
-    "/assets/@unhead-DQR5zzVu.js"
+    "/assets/@unhead-DUdWRP3r.js"
   ],
   "node_modules/@unhead/vue/dist/shared/vue.N9zWjxoK.mjs": [
-    "/assets/@unhead-DQR5zzVu.js"
+    "/assets/@unhead-DUdWRP3r.js"
   ],
   "node_modules/@unhead/vue/dist/shared/vue.nvpYXC6D.mjs": [
-    "/assets/@unhead-DQR5zzVu.js"
+    "/assets/@unhead-DUdWRP3r.js"
   ],
   "node_modules/@vue/devtools-api/dist/index.js": [
     "/assets/@vue-WVfTJAwV.js"
@@ -251,49 +251,49 @@
     "/assets/protobufjs-CgPuVhCO.js"
   ],
   "node_modules/unhead/dist/client.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/plugins.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/server.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.C13swrCa.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.CApf5sj3.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.Cp0iF6eN.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
+  ],
+  "node_modules/unhead/dist/shared/unhead.DGkFBTYv.mjs": [
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.DQc16pHI.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.DZbvapt-.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.DeCxexjU.mjs": [
-    "/assets/unhead-NLvR5cop.js"
-  ],
-  "node_modules/unhead/dist/shared/unhead.Txd0XTIP.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/shared/unhead.yem5I2v_.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/unhead/dist/utils.mjs": [
-    "/assets/unhead-NLvR5cop.js"
+    "/assets/unhead-RKJfobys.js"
   ],
   "node_modules/vite-ssg/dist/index.mjs": [
-    "/assets/vite-ssg-CaviuLAv.js"
+    "/assets/vite-ssg-BPNZYY2e.js"
   ],
   "node_modules/vite-ssg/dist/shared/vite-ssg.C6pK7rvr.mjs": [
-    "/assets/vite-ssg-CaviuLAv.js"
+    "/assets/vite-ssg-BPNZYY2e.js"
   ],
   "node_modules/vite-ssg/dist/shared/vite-ssg.ETIvV-80.mjs": [
-    "/assets/vite-ssg-CaviuLAv.js"
+    "/assets/vite-ssg-BPNZYY2e.js"
   ],
   "node_modules/vue-router/dist/vue-router.mjs": [
     "/assets/vue-router-DxF8NQ87.js"
@@ -1093,81 +1093,81 @@
   ],
   "src/App.vue?vue&type=script&setup=true&lang.ts": [],
   "src/assets/setting.json": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/AppBarComponent.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/FilterDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/FooterComponent.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/GifDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/MultiSelect.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/ReportDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/ResultGrid.vue": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/ResultGrid.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/card/ActionButtons.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/card/CardDialog.vue": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/card/CardDialog.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/card/CardThumbnail.vue": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/card/CardThumbnail.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/components/card/index.vue?vue&type=script&setup=true&lang.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/composables/useCanvas.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/composables/useErrorReporting.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/composables/useImageOperations.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/constants/filters.ts": [],
   "src/main.ts": [],
   "src/pages/index.vue": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/plugins/data.js": [],
@@ -1176,27 +1176,27 @@
   "src/stores/modules/dataStore.ts": [],
   "src/stores/modules/filterStore.ts": [],
   "src/stores/modules/resultsStore.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/stores/modules/searchStore.ts": [],
   "src/stores/modules/uiStore.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/types/card.ts": [],
   "src/utils/debounce.ts": [],
   "src/utils/lruCache.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/utils/textNormalization.ts": [],
   "src/utils/timeUtils.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "src/utils/urlUtils.ts": [
-    "/assets/index-Q0OxZGR2.js",
+    "/assets/index-FWJ3AmWA.js",
     "/assets/index-DI6oqMCV.css"
   ],
   "virtual:plugin-vuetify:components/VApp/VApp.sass": [
