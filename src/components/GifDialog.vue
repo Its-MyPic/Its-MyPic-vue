@@ -23,6 +23,9 @@ import { ref } from 'vue';
 import settings from '../assets/setting.json';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
+import { generateImageUrl } from '@/utils/urlUtils';
+import { useUIStore } from '@/stores';
+const uiStore = useUIStore();
 const ffmpeg = new FFmpeg();
 let ffmpegLoaded = false;
 
@@ -144,7 +147,7 @@ async function CreateGif() {
 
     // Download and write frames to virtual filesystem in parallel
     const downloadPromises = frames.map(async (frame: number) => {
-      const frameUrl = `${baseUrl}${props.season}/${props.episode}/${frame}.webp`;
+      const frameUrl = generateImageUrl(baseUrl, props.season, props.episode, frame, uiStore.wayBackMode);
       const frameData = await fetchFile(frameUrl);
       await ffmpeg.writeFile(`${frame}.webp`, frameData);
     });
