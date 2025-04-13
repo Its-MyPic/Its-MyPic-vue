@@ -1,32 +1,16 @@
 <template>
   <div :style="styles">
-    <card-thumbnail
-      :card-data="cardData"
-      :base-image-url="baseImageUrl"
-      @click="showDialog = true"
-    />
+    <card-thumbnail :card-data="cardData" :image-url="imageUrl" @click="showDialog = true" />
 
-    <card-dialog
-      v-model:show="showDialog"
-      :card-data="cardData"
-      :webhook-url="webhookUrl"
-      :image-url="imageUrl"
-      @gif-create="handleGifCreate"
-      :is-gif-creating="gifDialogRef?.isGeneratingGif"
-    >
+    <card-dialog v-model:show="showDialog" :card-data="cardData" :webhook-url="webhookUrl" :image-url="imageUrl"
+      @gif-create="handleGifCreate" :is-gif-creating="gifDialogRef?.isGeneratingGif">
       <template #report-dialog>
         <report-dialog :file-name="imageUrl" :text="cardData.text" />
       </template>
     </card-dialog>
 
-    <gif-dialog
-      ref="gifDialogRef"
-      :text="cardData.text"
-      :season="cardData.season"
-      :episode="cardData.episode"
-      :frame-start="cardData.frame.start"
-      :frame-end="cardData.frame.end"
-    />
+    <gif-dialog ref="gifDialogRef" :text="cardData.text" :season="cardData.season" :episode="cardData.episode"
+      :frame-start="cardData.frame.start" :frame-end="cardData.frame.end" />
   </div>
 </template>
 
@@ -39,6 +23,7 @@ import CardThumbnail from './CardThumbnail.vue';
 import CardDialog from './CardDialog.vue';
 import ReportDialog from '../ReportDialog.vue';
 import GifDialog from '../GifDialog.vue';
+import { useUIStore } from '@/stores';
 
 const props = defineProps({
   styles: {
@@ -59,13 +44,15 @@ const props = defineProps({
   }
 });
 
+const uiStore = useUIStore();
 const showDialog = ref(false);
 const gifDialogRef = ref<InstanceType<typeof GifDialog> | null>(null);
 const imageUrl = computed(() => generateImageUrl(
   props.baseImageUrl,
   props.cardData.season,
   props.cardData.episode,
-  props.cardData.frame.prefer
+  props.cardData.frame.prefer,
+  uiStore.wayBackMode,
 ));
 
 const handleGifCreate = async () => {

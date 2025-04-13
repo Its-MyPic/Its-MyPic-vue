@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="card-size" color="surface-variant" rounded="lg" variant="tonal" @click="$emit('click')">
-      <img :src="imgUrl" class="img-size" :alt="text" />
+      <img :src="props.imageUrl" class="img-size" :alt="text" />
       <div class="timestamp-overlay">
         {{ episodeText }} {{ timestamp }}
       </div>
@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { generateImageUrl, generateEpisodeText } from '@/utils/urlUtils';
+import { generateEpisodeText } from '@/utils/urlUtils';
 import { calculateTimestamp } from '@/utils/timeUtils';
 import type { PropType } from 'vue';
 import type { Card } from '@/types/card';
@@ -24,7 +24,7 @@ const props = defineProps({
     type: Object as PropType<Card>,
     required: true,
   },
-  baseImageUrl: {
+  imageUrl: {
     type: String,
     required: true,
   }
@@ -48,11 +48,6 @@ const episodeText = computed(() =>
 // Generate timestamp from frame number
 const timestamp = computed(() =>
   calculateTimestamp(frameStart)
-);
-
-// Generate image URL
-const imgUrl = computed(() =>
-  generateImageUrl(props.baseImageUrl, season, episode, framePrefer)
 );
 </script>
 
