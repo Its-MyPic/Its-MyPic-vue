@@ -12,7 +12,7 @@
               <v-icon @click="uiStore.toggleReverse"
                 :icon="uiStore.isReversed ? mdiSortVariant : mdiSortReverseVariant">
               </v-icon>
-              <v-btn text="時空機" @click="uiStore.togglewayBackMode"/>
+              <v-btn text="時光機" @click="uiStore.togglewayBackMode"/>
             </template>
             <template v-slot:append-inner>
               <FilterDialog />
