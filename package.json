@@ -19,7 +19,7 @@
     "core-js": "^3.42.0",
     "opencc-js": "^1.0.5",
     "pinia": "^3.0.2",
-    "protobufjs": "^7.5.0",
+    "protobufjs": "^7.5.1",
     "vue": "^3.4.31",
     "vue-virtual-scroll-grid": "^1.11.0",
     "vuetify": "^3.8.4"
