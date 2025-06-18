@@ -16,7 +16,7 @@
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
-    "core-js": "^3.42.0",
+    "core-js": "^3.43.0",
     "opencc-js": "^1.0.5",
     "pinia": "^3.0.3",
     "protobufjs": "^7.5.0",
