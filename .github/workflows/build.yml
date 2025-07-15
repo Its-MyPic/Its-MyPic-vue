@@ -20,14 +20,14 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
 
     - name: Install dependencies
       run: npm install
 
-    - name: patch module
-      run: |
-        grep -q '"type": "module"' node_modules/vue-virtual-scroll-grid/package.json || sed -i 's/"name": "vue-virtual-scroll-grid"/"name": "vue-virtual-scroll-grid",\n  "type": "module"/g' node_modules/vue-virtual-scroll-grid/package.json
+    # - name: patch module
+    #   run: |
+    #     grep -q '"type": "module"' node_modules/vue-virtual-scroll-grid/package.json || sed -i 's/"name": "vue-virtual-scroll-grid"/"name": "vue-virtual-scroll-grid",\n  "type": "module"/g' node_modules/vue-virtual-scroll-grid/package.json
 
     - name: Build project
       run: npm run build
