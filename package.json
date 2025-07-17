@@ -22,7 +22,7 @@
     "protobufjs": "7.5.3",
     "vue": "^3.5.17",
     "vue-virtual-scroll-grid": "^1.11.0",
-    "vuetify": "^3.9.0"
+    "vuetify": "^3.9.1"
   },
   "devDependencies": {
     "@eslint/js": "9.31.0",
