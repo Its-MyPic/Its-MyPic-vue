@@ -25,7 +25,7 @@
     "vuetify": "^3.9.2"
   },
   "devDependencies": {
-    "@eslint/js": "9.31.0",
+    "@eslint/js": "9.32.0",
     "@mdi/js": "^7.4.47",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "24.1.0",
