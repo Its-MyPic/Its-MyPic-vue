@@ -39,7 +39,7 @@
     "protobufjs-cli": "1.2.0",
     "sass": "1.89.2",
     "sass-embedded": "^1.90.0",
-    "typescript": "~5.8.3",
+    "typescript": "~5.9.2",
     "unplugin-fonts": "^1.4.0",
     "unplugin-vue-components": "^28.7.0",
     "unplugin-vue-router": "0.14.0",
