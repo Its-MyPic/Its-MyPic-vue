@@ -48,6 +48,6 @@
     "vite-plugin-vuetify": "^2.1.1",
     "vite-ssg": "28.0.0",
     "vue-router": "^4.5.1",
-    "vue-tsc": "3.0.3"
+    "vue-tsc": "3.0.7"
   }
 }
