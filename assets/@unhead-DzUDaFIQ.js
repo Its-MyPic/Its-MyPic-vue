@@ -1,0 +1,1 @@
+import{c as o,a as r,r as a}from"./unhead-DvBx_Zm6.js";const s="usehead";function i(e){return{install(t){t.config.globalProperties.$unhead=e,t.config.globalProperties.$head=e,t.provide(s,e)}}.install}function c(e={}){const n=o({domOptions:{render:r(()=>a(n),t=>setTimeout(t,0))},...e});return n.install=i(n),n}export{c};
