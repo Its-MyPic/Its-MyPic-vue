@@ -34,7 +34,7 @@
     "@vue/tsconfig": "^0.7.0",
     "esbuild": "^0.25.8",
     "eslint": "9.34.0",
-    "eslint-plugin-vue": "^10.2.0",
+    "eslint-plugin-vue": "^10.5.1",
     "npm-run-all2": "^8.0.4",
     "protobufjs-cli": "1.2.0",
     "sass": "1.94.0",
