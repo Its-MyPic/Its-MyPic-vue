@@ -29,9 +29,11 @@
     "@mdi/js": "^7.4.47",
     "@tsconfig/node22": "^22.0.5",
     "@types/node": "24.1.0",
+    "@unhead/vue": "^2.1.13",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.7.0",
+    "beasties": "^0.3.5",
     "esbuild": "^0.27.0",
     "eslint": "9.34.0",
     "eslint-plugin-vue": "^10.5.1",
@@ -46,8 +48,8 @@
     "vite": "6.4.2",
     "vite-plugin-sitemap": "^0.8.2",
     "vite-plugin-vuetify": "^2.1.1",
-    "vite-ssg": "^28.2.2",
-    "vue-router": "^4.5.1",
+    "vite-ssg": "^28.3.0",
+    "vue-router": "^4.6.4",
     "vue-tsc": "3.1.5"
   }
 }
