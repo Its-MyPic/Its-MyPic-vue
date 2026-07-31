@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { useDataStore } from "./dataStore";
 import { useFilterStore } from "./filterStore";
 import { useSearchStore } from "./searchStore";
 import { useUIStore } from "./uiStore";
 import { LRUCache } from "@/utils/lruCache";
 import { normalizeText } from "@/utils/textNormalization";
-import type { Card } from "@/types/card";
+import type { Card, FilterOptions } from "@/types/card";
 import { Season } from "@/constants/filters";
 
 // 擴展 Card 類型以增加正規化文本屬性
@@ -27,8 +27,14 @@ export const useResultsStore = defineStore("results", () => {
   // 搜索結果快取
   const searchCache = new LRUCache<string, Card[]>(50);
 
+  // 資料載入或重新載入時清空快取，避免回傳舊結果
+  watch(() => dataStore.cards, () => {
+    filterCache.clear();
+    searchCache.clear();
+  });
+
   // 優化快取鍵生成
-  const getFilterCacheKey = (filters: any) => {
+  const getFilterCacheKey = (filters: FilterOptions) => {
     const mygo = Array.from(filters.mygo).sort().join(',');
     const avemujica = Array.from(filters.avemujica).sort().join(',');
     return `mygo:${mygo}|avemujica:${avemujica}`;
