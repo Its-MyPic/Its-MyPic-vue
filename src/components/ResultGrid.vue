@@ -2,8 +2,7 @@
   <Suspense>
     <template #default>
       <Grid :length="cards.length ? cards.length : 1" :pageSize="cardsPerRow"
-        :pageProvider="pageProvider" :get-key="getKey" class="grid ma-5">
-        <!-- :page-provider-debounce-time="1000" -->
+        :page-provider="pageProvider" :get-key="getKey" class="grid ma-5">
         <template v-slot:probe>
           <div class="card-size">Probe</div>
         </template>
@@ -30,7 +29,7 @@
 import CardComponent from "./card/index.vue";
 import Grid from "vue-virtual-scroll-grid";
 import { useResultsStore } from '@/stores';
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import settings from '@/assets/setting.json';
 
@@ -42,21 +41,9 @@ const webhookUrl = computed(() =>
   `https://discord.com/api/webhooks/${atob(settings.webhook)}`
 );
 
-let cardsPerRow = ref(24);
-const calcRows = () => {
-  var width = Math.max(0, window.innerWidth - 290);
-  var cnt = Math.floor((width) / 270) + 1;
-  cardsPerRow.value = cnt * 8;
-};
+const cardsPerRow = computed(() => cards.value.length || 1);
 
 const pageProvider = computed(() => {
-  if (typeof window != "undefined") {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }
   const filtered = cards.value;
   return (page: number, pageSize: number) => {
     const slice = filtered.slice(page * pageSize, (page + 1) * pageSize);
@@ -66,13 +53,8 @@ const pageProvider = computed(() => {
 
 const getKey = (item: any) => item.value?.segmentId;
 
-onMounted(() => {
-  calcRows();
-  window.addEventListener("resize", calcRows);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", calcRows);
+watch(cards, () => {
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 });
 </script>
 
