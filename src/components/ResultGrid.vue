@@ -1,25 +1,23 @@
 <template>
   <Suspense>
     <template #default>
-      <ClientOnly>
-        <Grid :length="cards.length ? cards.length : 1" :pageSize="cardsPerRow"
-          :pageProvider="pageProvider" :get-key="getKey" class="grid ma-5">
-          <!-- :page-provider-debounce-time="1000" -->
-          <template v-slot:probe>
-            <div class="card-size">Probe</div>
-          </template>
-          <template v-slot:placeholder="{ index, style }">
-            <div class="card-size" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
-          </template>
-          <template v-slot:default="{ item, style, index }">
-            <CardComponent
-              :styles="style"
-              :card-data="item"
-              :webhook-url="webhookUrl"
-            />
-          </template>
-        </Grid>
-      </ClientOnly>
+      <Grid :length="cards.length ? cards.length : 1" :pageSize="cardsPerRow"
+        :pageProvider="pageProvider" :get-key="getKey" class="grid ma-5">
+        <!-- :page-provider-debounce-time="1000" -->
+        <template v-slot:probe>
+          <div class="card-size">Probe</div>
+        </template>
+        <template v-slot:placeholder="{ index, style }">
+          <div class="card-size" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
+        </template>
+        <template v-slot:default="{ item, style, index }">
+          <CardComponent
+            :styles="style"
+            :card-data="item"
+            :webhook-url="webhookUrl"
+          />
+        </template>
+      </Grid>
     </template>
 
     <template #fallback>
@@ -82,7 +80,6 @@ onUnmounted(() => {
 .grid {
   display: grid;
   grid-gap: 20px;
-  grid-template-rows: 4;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   align-items: center;
   justify-content: center;
