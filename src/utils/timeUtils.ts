@@ -28,6 +28,6 @@ export function calculateVideoTimestamp(
   episodeNumber: number,
   isSeason1: boolean
 ): number {
-  const offset = isSeason1 ? seasonOffsets[episodeNumber] : 0;
+  const offset = isSeason1 ? seasonOffsets[episodeNumber] ?? 0 : 0;
   return Math.round((frameStart + offset) / FRAME_RATE);
 }

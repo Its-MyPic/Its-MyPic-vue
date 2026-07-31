@@ -155,7 +155,7 @@ async function CreateGif() {
 
     // First generate a palette
     await ffmpeg.exec([
-      '-start_number', frames[0].toString(),
+      '-start_number', frames[0]!.toString(),
       '-i', '%d.webp',
       '-vf', 'palettegen',
       'palette.png'
@@ -163,7 +163,7 @@ async function CreateGif() {
 
     // Then use the palette to generate high quality GIF
     await ffmpeg.exec([
-      '-start_number', frames[0].toString(),
+      '-start_number', frames[0]!.toString(),
       '-i', '%d.webp',
       '-i', 'palette.png',
       '-filter_complex', 'paletteuse=dither=none',
@@ -174,8 +174,9 @@ async function CreateGif() {
     ]);
 
     // Read the output file and create blob
-    const uint8Array = await ffmpeg.readFile('output.gif');
-    generatedGifBlob.value = new Blob([uint8Array], { type: 'image/gif' });
+    const fileData = await ffmpeg.readFile('output.gif');
+    const blobPart = typeof fileData === 'string' ? fileData : new Uint8Array(fileData);
+    generatedGifBlob.value = new Blob([blobPart], { type: 'image/gif' });
     generatedGifUrl.value = URL.createObjectURL(generatedGifBlob.value);
 
     const endTime = performance.now();

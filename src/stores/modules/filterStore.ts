@@ -6,6 +6,7 @@ import { Season, EPISODES } from "@/constants/filters";
 export const useFilterStore = defineStore("filter", () => {
   // Parse initial episodes from URL
   const parseInitialEpisodes = () => {
+    if (typeof window === "undefined") return { mygo: [], avemujica: [] };
     const epParam = new URLSearchParams(window.location.search).get("ep");
     if (!epParam) return { mygo: [], avemujica: [] };
 

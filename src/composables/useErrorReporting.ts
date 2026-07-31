@@ -83,7 +83,8 @@ export function useErrorReporting(config: ErrorReportConfig) {
     // 只保留最後10個狀態變化
     if (Object.keys(lastStateChanges.value).length > 10) {
       const keys = Object.keys(lastStateChanges.value);
-      delete lastStateChanges.value[keys[0]];
+      const firstKey = keys.shift();
+      if (firstKey) delete lastStateChanges.value[firstKey];
     }
   };
 

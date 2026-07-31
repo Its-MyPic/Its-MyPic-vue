@@ -4,11 +4,16 @@ import { debounce } from "@/utils/debounce";
 import { normalizeText } from "@/utils/textNormalization";
 
 export const useSearchStore = defineStore("search", () => {
+  const getQueryFromUrl = () =>
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("q") || ""
+      : "";
+
   // Buffer狀態 - 直接接收用戶輸入
-  const queryBuffer = ref(new URLSearchParams(window.location.search).get("q") || "");
+  const queryBuffer = ref(getQueryFromUrl());
   
   // 計算狀態 - 經過延遲後更新，用於實際查詢
-  const query = ref(new URLSearchParams(window.location.search).get("q") || "");
+  const query = ref(getQueryFromUrl());
 
   // Convert and normalize query text
   const normalizedQuery = computed(() => {

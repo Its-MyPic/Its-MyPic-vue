@@ -85,7 +85,7 @@ export function useImageOperations(config: ImageOperationsConfig) {
         .then(img => {
           const dataUrl = canvas.createPngBlob(img);
           const arr = dataUrl.split(',');
-          const bstr = atob(arr[1]);
+          const bstr = atob(arr[1] ?? "");
           const n = bstr.length;
           const u8arr = new Uint8Array(n);
           
