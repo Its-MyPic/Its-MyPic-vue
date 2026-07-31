@@ -1,17 +1,39 @@
 <template>
-  <v-dialog v-model="showDialog" max-width="600px" :style="{ maxHeight: '90vh' }">
+  <v-dialog
+    v-model="showDialog"
+    max-width="600px"
+    :style="{ maxHeight: '90vh' }"
+  >
     <v-card>
-      <v-img :src="generatedGifUrl" :style="{ maxHeight: '70vh', objectFit: 'contain' }" />
+      <v-img
+        :src="generatedGifUrl"
+        :style="{ maxHeight: '70vh', objectFit: 'contain' }"
+      />
       <v-card-actions>
         <v-row>
-          <v-btn @click="downloadGeneratedGif" :loading="isDownloading">下載</v-btn>
-          <v-btn @click="generateGifLink" :loading="isGeneratingLink">生成連結</v-btn>
+          <v-btn
+            :loading="isDownloading"
+            @click="downloadGeneratedGif"
+          >
+            下載
+          </v-btn>
+          <v-btn
+            :loading="isGeneratingLink"
+            @click="generateGifLink"
+          >
+            生成連結
+          </v-btn>
         </v-row>
       </v-card-actions>
     </v-card>
   </v-dialog>
 
-  <v-snackbar v-model="copyResult" :timeout=2000 class="text-center" rounded="pill">
+  <v-snackbar
+    v-model="copyResult"
+    :timeout="2000"
+    class="text-center"
+    rounded="pill"
+  >
     <div class="text-h6 mx-auto font-weight-bold text-center text-truncate">
       {{ snackText }}
     </div>
@@ -20,10 +42,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import settings from '../assets/setting.json';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { generateImageUrl } from '@/utils/urlUtils';
+import { reportError } from '@/composables/useErrorReporting';
 import { useUIStore } from '@/stores';
 const uiStore = useUIStore();
 const ffmpeg = new FFmpeg();
@@ -116,7 +138,7 @@ async function generateGifLink() {
     } else {
       snackText.value = error instanceof Error ? error.message : 'GIF 上傳失敗';
     }
-    reportErrorToDiscord(error as Error);
+    reportError(error as Error, 'GifDialog');
   } finally {
     copyResult.value = true;
     isGeneratingLink.value = false;
@@ -186,7 +208,7 @@ async function CreateGif() {
 
   } catch (error) {
     console.error('GIF generation failed:', error);
-    reportErrorToDiscord(error as Error);
+    reportError(error as Error, 'GifDialog');
     snackText.value = 'GIF生成失敗';
   } finally {
     isGeneratingGif.value = false;
@@ -201,22 +223,6 @@ async function CreateGif() {
       ffmpeg.deleteFile('output.gif').catch(console.error),
       ffmpeg.deleteFile('palette.png').catch(console.error)
     ]);
-  }
-}
-
-async function reportErrorToDiscord(e: Error) {
-  const payload = {
-    content: `Copy failed: ${e.name}\n\n${navigator.userAgent}\n\n${e.message}\n\n${e.stack}`
-  };
-
-  try {
-    await fetch(`https://discord.com/api/webhooks/${atob(settings.webhook)}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-  } catch (fetchError) {
-    console.error('Failed to send error report to Discord:', fetchError);
   }
 }
 

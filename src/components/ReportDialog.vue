@@ -1,27 +1,47 @@
 <template>
-  <v-dialog v-model="dialog" activator="parent" max-width="600px" :style="{ maxHeight: '90vh' }"
-    transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="dialog"
+    activator="parent"
+    max-width="600px"
+    :style="{ maxHeight: '90vh' }"
+    transition="dialog-bottom-transition"
+  >
     <v-card>
       <v-card-title>回報問題</v-card-title>
       <v-card-text>
-        <v-text-field label="你遭遇到的問題(選填)" v-model="issue" outlined></v-text-field>
-        <v-text-field label="你的聯絡方式(選填)" v-model="contact" outlined></v-text-field>
+        <v-text-field
+          v-model="issue"
+          label="你遭遇到的問題(選填)"
+          outlined
+        />
+        <v-text-field
+          v-model="contact"
+          label="你的聯絡方式(選填)"
+          outlined
+        />
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="submitIssue">送出</v-btn>
+        <v-btn @click="submitIssue">
+          送出
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-snackbar v-model="show" :timeout=2000 class="text-center" rounded="pill">
+  <v-snackbar
+    v-model="show"
+    :timeout="2000"
+    class="text-center"
+    rounded="pill"
+  >
     <div class="text-h6 mx-auto font-weight-bold text-center text-truncate">
       已回報問題
     </div>
   </v-snackbar>
-
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { sendDiscordMessage } from '@/composables/useErrorReporting';
 const props = defineProps({
   fileName: {
     type: String,
@@ -40,8 +60,6 @@ const contact = ref('');
 const show = ref(false);
 const dialog = ref(false);
 
-import settings from '../assets/setting.json';
-
 async function submitIssue() {
   let content = '';
   if (issue.value) {
@@ -58,14 +76,7 @@ async function submitIssue() {
   }
 
   if (content) {
-    const payload = { content };
-    await fetch(`https://discord.com/api/webhooks/${atob(settings.webhook)}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    await sendDiscordMessage(content);
     show.value = true;
   }
   dialog.value = false;
