@@ -1,6 +1,7 @@
 import { data } from "@/plugins/data";
 import type { Nullable } from "./common";
 import { Season } from "@/constants/filters";
+import { normalizeText } from "@/utils/textNormalization";
 
 /**
  * 幀資訊介面
@@ -17,6 +18,7 @@ export interface Frame {
 export interface Card extends Omit<data.Info, 'season' | 'frameStart' | 'framePrefer' | 'frameEnd'> {
   season: Season;
   frame: Frame;
+  normalizedText?: string;
   toJSON(): Record<string, unknown>;
 }
 
@@ -65,6 +67,7 @@ export function infoToCard(info: data.IInfo): Card {
 
   return {
     ...card,
+    normalizedText: normalizeText(card.text),
     toJSON() {
       return {
         ...card,

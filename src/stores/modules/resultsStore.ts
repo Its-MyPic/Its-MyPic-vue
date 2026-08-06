@@ -5,16 +5,8 @@ import { useFilterStore } from "./filterStore";
 import { useSearchStore } from "./searchStore";
 import { useUIStore } from "./uiStore";
 import { LRUCache } from "@/utils/lruCache";
-import { normalizeText } from "@/utils/textNormalization";
 import type { Card, FilterOptions } from "@/types/card";
 import { Season } from "@/constants/filters";
-
-// 擴展 Card 類型以增加正規化文本屬性
-declare module '@/types/card' {
-  interface Card {
-    normalizedText?: string;
-  }
-}
 
 export const useResultsStore = defineStore("results", () => {
   const dataStore = useDataStore();
@@ -40,22 +32,9 @@ export const useResultsStore = defineStore("results", () => {
     return `mygo:${mygo}|avemujica:${avemujica}`;
   };
 
-  // 預先正規化文本
-  const ensureNormalizedText = (cards: Card[]) => {
-    for (const card of cards) {
-      if (card.text && !card.normalizedText) {
-        card.normalizedText = normalizeText(card.text);
-      }
-    }
-    return cards;
-  };
-
   const filteredCards = computed(() => {
     const originalCards = dataStore.cards;
     if (!originalCards.length) return [];
-
-    // 確保所有卡片都有正規化文本並建立新陣列
-    const cards = ensureNormalizedText([...originalCards]);
 
     // 1. 應用過濾器
     const filters = filterStore.activeFilters;
@@ -65,7 +44,7 @@ export const useResultsStore = defineStore("results", () => {
     if (filterCache.has(cacheKey)) {
       filtered = filterCache.get(cacheKey)!;
     } else {
-      filtered = cards.filter(card => {
+      filtered = originalCards.filter(card => {
         if (filters.mygo.size && card.season === Season.MYGO) {
           return filters.mygo.has(card.episode);
         }
