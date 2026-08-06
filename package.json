@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "build-only": "vite-ssg build",
     "type-check": "vue-tsc --build --force",
+    "test": "vitest run",
     "lint": "eslint . --fix",
     "protobuf": "pbjs -t static-module -w es6 -o src/plugins/data.js public/data/data.proto; pbts -o src/plugins/data.d.ts src/plugins/data.js"
   },
@@ -49,6 +50,7 @@
     "vite-plugin-sitemap": "^0.8.2",
     "vite-plugin-vuetify": "^2.1.1",
     "vite-ssg": "^28.3.0",
+    "vitest": "^4.1.10",
     "vue-router": "^4.6.4",
     "vue-tsc": "3.2.2"
   }

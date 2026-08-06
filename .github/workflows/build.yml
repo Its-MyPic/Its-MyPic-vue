@@ -25,6 +25,9 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Run tests
+      run: npm test
+
     # - name: patch module
     #   run: |
     #     grep -q '"type": "module"' node_modules/vue-virtual-scroll-grid/package.json || sed -i 's/"name": "vue-virtual-scroll-grid"/"name": "vue-virtual-scroll-grid",\n  "type": "module"/g' node_modules/vue-virtual-scroll-grid/package.json
