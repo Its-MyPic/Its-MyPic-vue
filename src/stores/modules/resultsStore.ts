@@ -19,10 +19,60 @@ export const useResultsStore = defineStore("results", () => {
   // 搜索結果快取
   const searchCache = new LRUCache<string, Card[]>(50);
 
+  let charIndex: Map<string, Set<Card>> | null = null;
+
+  const buildCharIndex = (cards: readonly Card[]) => {
+    const index = new Map<string, Set<Card>>();
+    for (const card of cards) {
+      const text = card.normalizedText;
+      if (!text) continue;
+      for (const ch of text) {
+        let set = index.get(ch);
+        if (!set) {
+          set = new Set();
+          index.set(ch, set);
+        }
+        set.add(card);
+      }
+    }
+    return index;
+  };
+
+  const searchByCharIndex = (cards: Card[], query: string): Card[] => {
+    if (!charIndex) charIndex = buildCharIndex(dataStore.cards);
+
+    const chars = [...new Set(query)];
+    let candidates: Set<Card> | null = null;
+    for (const ch of chars) {
+      const set = charIndex.get(ch);
+      if (!set) return [];
+      if (candidates === null) {
+        candidates = set;
+      } else {
+        const next = new Set<Card>();
+        for (const card of candidates) {
+          if (set.has(card)) next.add(card);
+        }
+        candidates = next;
+        if (candidates.size === 0) return [];
+      }
+    }
+    if (candidates === null) return [];
+
+    const result: Card[] = [];
+    for (const card of cards) {
+      if (candidates.has(card) && card.normalizedText?.includes(query)) {
+        result.push(card);
+      }
+    }
+    return result;
+  };
+
   // 資料載入或重新載入時清空快取，避免回傳舊結果
   watch(() => dataStore.cards, () => {
     filterCache.clear();
     searchCache.clear();
+    charIndex = null;
   });
 
   // 優化快取鍵生成
@@ -67,9 +117,7 @@ export const useResultsStore = defineStore("results", () => {
         filtered = searchCache.get(searchCacheKey)!;
       } else {
         // 使用預先正規化的文本
-        const searchResults = filtered.filter(card =>
-          card.normalizedText?.includes(searchStore.normalizedQuery)
-        );
+        const searchResults = searchByCharIndex(filtered, searchStore.normalizedQuery);
         searchCache.set(searchCacheKey, searchResults);
         filtered = searchResults;
       }
