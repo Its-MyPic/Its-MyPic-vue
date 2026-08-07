@@ -33,7 +33,7 @@
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.9.1",
-    "beasties": "^0.3.5",
+    "beasties": "^0.4.3",
     "esbuild": "^0.28.1",
     "eslint": "^10.8.0",
     "eslint-plugin-vue": "^10.5.1",
