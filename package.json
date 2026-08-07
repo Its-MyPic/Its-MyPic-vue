@@ -38,7 +38,7 @@
     "esbuild": "^0.27.0",
     "eslint": "9.34.0",
     "eslint-plugin-vue": "^10.5.1",
-    "npm-run-all2": "^8.0.4",
+    "npm-run-all2": "^9.0.3",
     "protobufjs-cli": "2.6.1",
     "sass": "1.97.2",
     "sass-embedded": "^1.93.2",
