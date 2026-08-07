@@ -5,7 +5,7 @@
         MyGO Mujica 截圖搜尋器
       </div>
       <v-row
-        dense
+        density="comfortable"
         class="mt-2"
       >
         <v-col class="text-center">
