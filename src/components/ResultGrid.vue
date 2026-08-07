@@ -1,15 +1,27 @@
 <template>
   <Suspense>
     <template #default>
-      <Grid :length="cards.length ? cards.length : 1" :pageSize="cardsPerRow"
-        :page-provider="pageProvider" :get-key="getKey" class="grid ma-5">
-        <template v-slot:probe>
-          <div class="card-size">Probe</div>
+      <Grid
+        :length="cards.length ? cards.length : 1"
+        :page-size="cardsPerRow"
+        :page-provider="pageProvider"
+        :get-key="getKey"
+        class="grid ma-5"
+      >
+        <template #probe>
+          <div class="card-size">
+            Probe
+          </div>
         </template>
-        <template v-slot:placeholder="{ index, style }">
-          <div class="card-size" :style="style">{{ cards.length ? "還在GO..." : "" }}</div>
+        <template #placeholder="{ style }">
+          <div
+            class="card-size"
+            :style="style"
+          >
+            {{ cards.length ? "還在GO..." : "" }}
+          </div>
         </template>
-        <template v-slot:default="{ item, style, index }">
+        <template #default="{ item, style }">
           <CardComponent
             :styles="style"
             :card-data="item"
@@ -29,7 +41,7 @@
 import CardComponent from "./card/index.vue";
 import Grid from "vue-virtual-scroll-grid";
 import { useResultsStore } from '@/stores';
-import { ref, onMounted, onUnmounted, computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import settings from '@/assets/setting.json';
 
@@ -51,7 +63,10 @@ const pageProvider = computed(() => {
   };
 });
 
-const getKey = (item: any) => item.value?.segmentId;
+const getKey = (item: { value?: unknown }) => {
+  const id = (item.value as { segmentId?: number } | undefined)?.segmentId;
+  return id === undefined ? 0 : id;
+};
 
 watch(cards, () => {
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });

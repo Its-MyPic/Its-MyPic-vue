@@ -1,15 +1,25 @@
 <template>
-  <v-dialog :model-value="show" @update:model-value="$emit('update:show', $event)" max-width="600px" :style="{ maxHeight: '90vh' }">
+  <v-dialog
+    :model-value="show"
+    max-width="600px"
+    :style="{ maxHeight: '90vh' }"
+    @update:model-value="$emit('update:show', $event)"
+  >
     <v-card>
       <div style="position: relative;">
-        <v-img :src="imageUrl" :style="{ maxHeight: '70vh', objectFit: 'contain' }" />
+        <v-img
+          :src="imageUrl"
+          :style="{ maxHeight: '70vh', objectFit: 'contain' }"
+        />
         <div class="timestamp-overlay">
           {{ episodeText }} {{ timestamp }}
         </div>
       </div>
       <v-row>
         <v-col>
-          <v-card-text class="text-center">{{ text }}</v-card-text>
+          <v-card-text class="text-center">
+            {{ text }}
+          </v-card-text>
         </v-col>
       </v-row>
       <v-card-actions>

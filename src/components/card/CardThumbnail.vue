@@ -1,7 +1,17 @@
 <template>
   <div>
-    <v-card class="card-size" color="surface-variant" rounded="lg" variant="tonal" @click="$emit('click')">
-      <img :src="props.imageUrl" class="img-size" :alt="text" />
+    <v-card
+      class="card-size"
+      color="surface-variant"
+      rounded="lg"
+      variant="tonal"
+      @click="$emit('click')"
+    >
+      <img
+        :src="props.imageUrl"
+        class="img-size"
+        :alt="text"
+      >
       <div class="timestamp-overlay">
         {{ episodeText }} {{ timestamp }}
       </div>
@@ -38,7 +48,6 @@ const text = props.cardData.text;
 const season = props.cardData.season;
 const episode = props.cardData.episode;
 const frameStart = props.cardData.frame.start;
-const framePrefer = props.cardData.frame.prefer;
 
 // Generate episode text (e.g., "MyGO 第1話")
 const episodeText = computed(() =>

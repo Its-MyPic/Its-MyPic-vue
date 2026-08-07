@@ -12,7 +12,7 @@ import { routes } from "vue-router/auto-routes";
 import { createPinia } from "pinia";
 import { useDataStore } from "./stores";
 
-export const createApp = ViteSSG(App, { routes: routes }, ({ app, router, initialState }) => {
+export const createApp = ViteSSG(App, { routes: routes }, ({ app, initialState }) => {
   app.use(vuetify);
   app.directive("longPress", LongPress);
   const pinia = createPinia();

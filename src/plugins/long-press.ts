@@ -1,4 +1,4 @@
-import type { Directive } from "@vue/runtime-core";
+import type { Directive } from "vue";
 
 type CallBack = (event: PointerEvent) => void;
 

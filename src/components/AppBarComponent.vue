@@ -4,17 +4,34 @@
       <div class="text-h5 mx-auto font-weight-bold text-center text-truncate">
         MyGO Mujica 截圖搜尋器
       </div>
-      <v-row dense class="mt-2">
+      <v-row
+        dense
+        class="mt-2"
+      >
         <v-col class="text-center">
-          <v-text-field v-model="searchStore.queryBuffer" single-line hide-details clearable label="搜尋" variant="outlined"
-            class="short-search" @keyup.enter="applySearch" @click:clear="clearMessage" autofocus>
-            <template v-slot:append>
-              <v-icon @click="uiStore.toggleReverse"
-                :icon="uiStore.isReversed ? mdiSortVariant : mdiSortReverseVariant">
-              </v-icon>
-              <v-btn text="時光機" @click="uiStore.togglewayBackMode"/>
+          <v-text-field
+            v-model="searchStore.queryBuffer"
+            single-line
+            hide-details
+            clearable
+            label="搜尋"
+            variant="outlined"
+            class="short-search"
+            autofocus
+            @keyup.enter="applySearch"
+            @click:clear="clearMessage"
+          >
+            <template #append>
+              <v-icon
+                :icon="uiStore.isReversed ? mdiSortVariant : mdiSortReverseVariant"
+                @click="uiStore.toggleReverse"
+              />
+              <v-btn
+                text="時光機"
+                @click="uiStore.togglewayBackMode"
+              />
             </template>
-            <template v-slot:append-inner>
+            <template #append-inner>
               <FilterDialog />
             </template>
           </v-text-field>

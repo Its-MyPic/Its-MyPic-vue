@@ -4,15 +4,39 @@
       回報
       <slot name="report-dialog" />
     </v-btn>
-    <v-btn @click="handleDownload" :loading="imageOps.isDownloading.value">下載</v-btn>
-    <v-btn @click="handleGifCreate" :loading="isGifCreating">GIF</v-btn>
-    <v-btn v-long-press="handleLongPress" @click="handleClick" :loading="imageOps.isCopying.value">複製</v-btn>
-    <v-btn :href="videoUrl" target="_blank">
+    <v-btn
+      :loading="imageOps.isDownloading.value"
+      @click="handleDownload"
+    >
+      下載
+    </v-btn>
+    <v-btn
+      :loading="isGifCreating"
+      @click="handleGifCreate"
+    >
+      GIF
+    </v-btn>
+    <v-btn
+      v-long-press="handleLongPress"
+      :loading="imageOps.isCopying.value"
+      @click="handleClick"
+    >
+      複製
+    </v-btn>
+    <v-btn
+      :href="videoUrl"
+      target="_blank"
+    >
       從這裡開始看
     </v-btn>
   </v-row>
 
-  <v-snackbar v-model="showSnackbar" :timeout="2000" class="text-center" rounded="pill">
+  <v-snackbar
+    v-model="showSnackbar"
+    :timeout="2000"
+    class="text-center"
+    rounded="pill"
+  >
     <div class="text-h6 mx-auto font-weight-bold text-center text-truncate">
       {{ imageOps.operationStatus }}
     </div>
@@ -95,7 +119,7 @@ const handleClick = async () => {
     } else {
       await imageOps.copyImage(props.imageUrl);
     }
-  } catch (error) {
+  } catch {
     // Error is already handled in imageOps
   }
 };
@@ -104,7 +128,7 @@ const handleLongPress = async () => {
   try {
     wasLongPressed.value = true;
     await imageOps.copyUrl(props.imageUrl);
-  } catch (error) {
+  } catch {
     // Error is already handled in imageOps
   }
 };

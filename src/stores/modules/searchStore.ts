@@ -64,7 +64,7 @@ export const useSearchStore = defineStore("search", () => {
   // 單向數據流: queryBuffer changes -> debounce -> update query -> update URL
   watch(
     queryBuffer, 
-    debounce((newValue) => {
+    debounce((newValue: string) => {
       // 檢查是否有實際變化
       if (newValue === query.value) {
         console.debug('Query unchanged, skip updating');

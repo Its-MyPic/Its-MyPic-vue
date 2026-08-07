@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import type { FilterOptions } from "@/types/card";
-import { Season, EPISODES } from "@/constants/filters";
+import { EPISODES } from "@/constants/filters";
 
 export const useFilterStore = defineStore("filter", () => {
   // Parse initial episodes from URL

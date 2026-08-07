@@ -1,24 +1,35 @@
 <template>
-  <v-select v-model="selected" :label="label" variant="outlined" multiple :items="items" style="min-width:250px">
-    <template v-slot:prepend-item>
-      <v-list-item title="全選" @click="toggleSelectAll">
-        <template v-slot:prepend>
-          <v-checkbox-btn :indeterminate="indeterminate" :model-value="allSelected"></v-checkbox-btn>
+  <v-select
+    v-model="selected"
+    :label="label"
+    variant="outlined"
+    multiple
+    :items="items"
+    style="min-width:250px"
+  >
+    <template #prepend-item>
+      <v-list-item
+        title="全選"
+        @click="toggleSelectAll"
+      >
+        <template #prepend>
+          <v-checkbox-btn
+            :indeterminate="indeterminate"
+            :model-value="allSelected"
+          />
         </template>
-
       </v-list-item>
-      <v-divider class="mt-2"></v-divider>
+      <v-divider class="mt-2" />
     </template>
-    <template v-slot:selection="{ item, index }">
+    <template #selection="{ item, index }">
       <v-chip v-if="selected.length != items.length">
-        <span>{{ item.value }}</span>
+        <span>{{ item }}</span>
       </v-chip>
 
       <v-chip v-if="index === (items.length - 1)">
         <span>全選</span>
       </v-chip>
     </template>
-
   </v-select>
 </template>
 

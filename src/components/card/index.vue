@@ -1,16 +1,35 @@
 <template>
   <div :style="styles">
-    <card-thumbnail :card-data="cardData" :image-url="imageUrl" @click="showDialog = true" />
+    <card-thumbnail
+      :card-data="cardData"
+      :image-url="imageUrl"
+      @click="showDialog = true"
+    />
 
-    <card-dialog v-model:show="showDialog" :card-data="cardData" :webhook-url="webhookUrl" :image-url="imageUrl"
-      @gif-create="handleGifCreate" :is-gif-creating="gifDialogRef?.isGeneratingGif">
+    <card-dialog
+      v-model:show="showDialog"
+      :card-data="cardData"
+      :webhook-url="webhookUrl"
+      :image-url="imageUrl"
+      :is-gif-creating="gifDialogRef?.isGeneratingGif"
+      @gif-create="handleGifCreate"
+    >
       <template #report-dialog>
-        <report-dialog :file-name="imageUrl" :text="cardData.text" />
+        <report-dialog
+          :file-name="imageUrl"
+          :text="cardData.text"
+        />
       </template>
     </card-dialog>
 
-    <gif-dialog ref="gifDialogRef" :text="cardData.text" :season="cardData.season" :episode="cardData.episode"
-      :frame-start="cardData.frame.start" :frame-end="cardData.frame.end" />
+    <gif-dialog
+      ref="gifDialogRef"
+      :text="cardData.text"
+      :season="cardData.season"
+      :episode="cardData.episode"
+      :frame-start="cardData.frame.start"
+      :frame-end="cardData.frame.end"
+    />
   </div>
 </template>
 

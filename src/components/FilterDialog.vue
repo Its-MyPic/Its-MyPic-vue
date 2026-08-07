@@ -1,17 +1,32 @@
 <template>
-  <v-dialog v-model="enable" max-width="600px" style="min-height: 600px;" transition="dialog-top-transition">
-    <template v-slot:activator="{ props: activatorProps }">
-      <v-icon v-bind="activatorProps" :icon="mdiTune">
-      </v-icon>
+  <v-dialog
+    v-model="enable"
+    max-width="600px"
+    style="min-height: 600px;"
+    transition="dialog-top-transition"
+  >
+    <template #activator="{ props: activatorProps }">
+      <v-icon
+        v-bind="activatorProps"
+        :icon="mdiTune"
+      />
     </template>
     <v-card class="d-flex flex-column align-center justify-center font-weight-bold">
-      <br />
-      <br />
+      <br>
+      <br>
       <span class="align-center">集數篩選</span>
-      <MultiSelect :items="EPISODES" v-model="localMygoFilter" label="MyGO"
-        style="min-width:250px" />
-      <MultiSelect :items="EPISODES" v-model="localAvemujicaFilter" label="Ave Mujica"
-        style="min-width:250px" />
+      <MultiSelect
+        v-model="localMygoFilter"
+        :items="EPISODES"
+        label="MyGO"
+        style="min-width:250px"
+      />
+      <MultiSelect
+        v-model="localAvemujicaFilter"
+        :items="EPISODES"
+        label="Ave Mujica"
+        style="min-width:250px"
+      />
 
       <!-- FUTURE-FEATURE: 角色篩選功能相關UI
       <span class="align-center">角色篩選</span>
@@ -19,8 +34,16 @@
 
       <v-checkbox class="text-center" label="角色嚴格篩選" /> -->
       <v-card-actions>
-        <v-btn class="text-center" text="清除篩選" @click="cleanFilter" />
-        <v-btn class="text-center" text="確定" @click="applyFilter" />
+        <v-btn
+          class="text-center"
+          text="清除篩選"
+          @click="cleanFilter"
+        />
+        <v-btn
+          class="text-center"
+          text="確定"
+          @click="applyFilter"
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -36,6 +59,7 @@ import { EPISODES } from "@/constants/filters";
 const filterStore = useFilterStore();
 
 // FUTURE-FEATURE: 角色篩選功能的預留資料和變數
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const characters = ['高松燈', '千早愛音', '要樂奈', '長崎爽世', '椎名立希', '三角初華', '豐川祥子', '八幡海鈴', '祐天寺若麥', '若葉睦'];
 const enable = ref(false);
 const characterFilter = ref<string[]>([]);
