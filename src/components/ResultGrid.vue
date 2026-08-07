@@ -3,7 +3,7 @@
     <template #default>
       <Grid
         :length="cards.length ? cards.length : 1"
-        :page-size="cardsPerRow"
+        :page-size="PAGE_SIZE"
         :page-provider="pageProvider"
         :get-key="getKey"
         class="grid ma-5"
@@ -53,7 +53,7 @@ const webhookUrl = computed(() =>
   `https://discord.com/api/webhooks/${atob(settings.webhook)}`
 );
 
-const cardsPerRow = computed(() => cards.value.length || 1);
+const PAGE_SIZE = 60;
 
 const pageProvider = computed(() => {
   const filtered = cards.value;
