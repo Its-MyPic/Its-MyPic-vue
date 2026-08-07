@@ -9,6 +9,7 @@
           <v-btn
             variant="text"
             size="small"
+            color="primary"
             class="text-center"
           >
             其他連結
@@ -73,6 +74,7 @@
           <v-btn
             variant="text"
             size="small"
+            color="primary"
             class="text-center"
           >
             回報問題
@@ -81,9 +83,9 @@
           <v-btn
             variant="text"
             size="small"
+            color="primary"
             class="text-center"
-            :href="`https://forms.gle/WzW9PZwUU6gqHZko7`"
-            target="_blank"
+            @click="openSubmission"
           >
             投稿
           </v-btn>
@@ -170,6 +172,10 @@ const copyModeBind = computed({
 });
 
 const theme = useTheme();
+
+const openSubmission = () => {
+  window.open('https://forms.gle/WzW9PZwUU6gqHZko7', '_blank');
+};
 
 
 function toggleTheme(newValue: boolean) {
