@@ -63,9 +63,9 @@ const pageProvider = computed(() => {
   };
 });
 
-const getKey = (item: { value?: unknown }) => {
-  const id = (item.value as { segmentId?: number } | undefined)?.segmentId;
-  return id === undefined ? 0 : id;
+const getKey = (item: { index?: number; value?: unknown }) => {
+  const card = item.value as { segmentId?: number } | undefined;
+  return card?.segmentId ?? `p-${item.index ?? 0}`;
 };
 
 watch(cards, () => {
